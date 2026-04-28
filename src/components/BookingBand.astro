@@ -1,0 +1,25 @@
+---
+import { bookingCues } from '@/data/conversion';
+import { ctaLabels } from '@/data/site';
+---
+
+<section class="booking-band" aria-labelledby="booking-band-title">
+  <div class="booking-band-copy" data-reveal>
+    <span>Now Booking</span>
+    <h2 id="booking-band-title">Start with a sharper visual direction, then build only what your launch needs.</h2>
+  </div>
+
+  <div class="booking-band-cues" aria-label="Booking summary" data-reveal>
+    {bookingCues.map((cue) => (
+      <div>
+        <span>{cue.label}</span>
+        <strong>{cue.value}</strong>
+      </div>
+    ))}
+  </div>
+
+  <div class="booking-band-action" data-reveal>
+    <a class="button is-dark" href="#contact">{ctaLabels.primary}</a>
+    <a class="text-button" href="#engagement">{ctaLabels.compareScopes}</a>
+  </div>
+</section>

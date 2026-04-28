@@ -1,0 +1,45 @@
+---
+import WorkPicture from '@/components/WorkPicture.astro';
+import { heroWorks } from '@/data/works';
+import { ctaLabels, heroAssurances } from '@/data/site';
+
+const heroClasses = ['is-main', 'is-side', 'is-small', 'is-strip'];
+---
+
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero-copy" data-reveal>
+    <div class="hero-label">Independent graphic designer / Visual identity / Campaign systems</div>
+    <h1 id="hero-title">Brand visuals with a sharper first impression.</h1>
+    <p class="hero-catalog">Brand Identity / Posters / Menus / Social Campaigns / Launch Systems</p>
+    <div class="hero-preview-row" aria-label="Fast preview of selected work">
+      {heroWorks.map((work) => <WorkPicture work={work} sizes="110px" alt="" loading="eager" fetchpriority="high" />)}
+      <span>Selected commercial systems</span>
+    </div>
+    <p class="hero-subcopy">
+      I design identities, posters, menus, social assets, and launch systems so your brand feels clear, cohesive, and ready to show up.
+    </p>
+    <div class="hero-actions">
+      <a class="button is-dark" href="#contact">{ctaLabels.primary}</a>
+      <a class="text-button" href="#showcase">{ctaLabels.secondary}</a>
+      <p class="hero-note">For founders and brands that need a stronger visual system before launch, promotion, or repositioning.</p>
+    </div>
+    <div class="hero-assurance-row" aria-label="Project assurance">
+      {heroAssurances.map((item) => <span>{item}</span>)}
+    </div>
+  </div>
+
+  <div class="hero-collage" aria-label="Selected design work collage" data-reveal>
+    {heroWorks.map((work, index) => (
+      <figure class={`collage-card ${heroClasses[index]}`}>
+        <WorkPicture work={work} sizes="(max-width: 680px) 62vw, 34vw" loading="eager" fetchpriority={index === 0 ? 'high' : 'auto'} />
+      </figure>
+    ))}
+    <div class="collage-caption">
+      Curated commercial graphics across hospitality, launch campaigns, editorial posters and visual systems.
+    </div>
+    <div class="hero-proof-card">
+      <span>01</span>
+      <strong>Make the first impression feel designed, not assembled.</strong>
+    </div>
+  </div>
+</section>

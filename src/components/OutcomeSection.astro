@@ -1,0 +1,26 @@
+---
+import { outcomeShifts } from '@/data/conversion';
+import { ctaLabels } from '@/data/site';
+---
+
+<section class="section outcome-section" aria-labelledby="outcome-title">
+  <div class="outcome-panel" data-reveal>
+    <div class="outcome-copy">
+      <div class="section-kicker">What Changes</div>
+      <h2 class="section-heading" id="outcome-title">Design should make the brand easier to choose.</h2>
+      <p class="section-intro">
+        The goal is not to make more assets. The goal is to make every asset feel clearer, sharper, and more useful at the moment someone decides whether to trust the brand.
+      </p>
+      <a class="button is-dark" href="#contact">{ctaLabels.primary}</a>
+    </div>
+    <div class="outcome-grid">
+      {outcomeShifts.map((item, index) => (
+        <article class="outcome-card">
+          <span>{String(index + 1).padStart(2, '0')} / {item.label}</span>
+          <h3>{item.title}</h3>
+          <p>{item.text}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

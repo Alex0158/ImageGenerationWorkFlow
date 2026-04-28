@@ -1,0 +1,26 @@
+---
+import { projectFits } from '@/data/conversion';
+---
+
+<section class="section fit-section" id="fit" aria-labelledby="fit-title">
+  <div class="fit-heading" data-reveal>
+    <div>
+      <div class="section-kicker">Project Fit</div>
+      <h2 class="section-heading" id="fit-title">Choose the path that matches the moment.</h2>
+    </div>
+    <p class="section-intro">
+      The best projects start with a clear commercial situation. If one of these feels close, the brief is already enough to begin a focused scope.
+    </p>
+  </div>
+  <div class="fit-grid">
+    {projectFits.map((fit, index) => (
+      <article class="fit-card" data-reveal>
+        <div class="fit-index">{String(index + 1).padStart(2, '0')}</div>
+        <span>{fit.label}</span>
+        <h3>{fit.title}</h3>
+        <p>{fit.bestFor}</p>
+        <a class="text-button" href="#contact">{fit.action}</a>
+      </article>
+    ))}
+  </div>
+</section>

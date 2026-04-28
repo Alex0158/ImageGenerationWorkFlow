@@ -1,0 +1,30 @@
+---
+import { siteMeta } from '@/data/site';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  name: siteMeta.name,
+  description: siteMeta.description,
+  areaServed: siteMeta.areaServed,
+  serviceType: siteMeta.serviceTypes,
+};
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>{siteMeta.title}</title>
+<meta name="description" content={siteMeta.description} />
+<meta name="theme-color" content="#F4EFE7" />
+<meta property="og:title" content={siteMeta.title} />
+<meta property="og:description" content={siteMeta.ogDescription} />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="/assets/works/pasta-hospitality-poster-904.webp" />
+<link rel="icon" href="/assets/generated/mark.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap"
+  rel="stylesheet"
+/>
+<script type="application/ld+json" is:inline set:html={JSON.stringify(schema)} />

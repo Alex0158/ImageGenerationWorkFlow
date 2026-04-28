@@ -1,0 +1,63 @@
+---
+import WorkPicture from '@/components/WorkPicture.astro';
+import { ctaLabels } from '@/data/site';
+import { featuredWorks } from '@/data/works';
+
+const showcaseWorks = featuredWorks.slice(0, 7);
+---
+
+<section class="showcase-section" id="showcase" aria-labelledby="showcase-title">
+  <div class="showcase-copy" data-reveal>
+    <div class="section-kicker">Signature Showcase</div>
+    <h2 class="showcase-title" id="showcase-title">A rotating wall of commercial graphics.</h2>
+    <p class="section-intro">
+      A cinematic product-wall for commercial graphics: posters, hospitality visuals, campaign systems, and launch assets designed to stop the scroll.
+    </p>
+  </div>
+
+  <div class="showcase-shell" data-carousel>
+    <div class="showcase-controls" aria-label="Showcase controls">
+      <button class="showcase-control" type="button" data-carousel-prev aria-label="Previous work">Prev</button>
+      <div class="showcase-counter" aria-live="polite"><span data-carousel-current>01</span> / {showcaseWorks.length.toString().padStart(2, '0')}</div>
+      <button class="showcase-control" type="button" data-carousel-next aria-label="Next work">Next</button>
+    </div>
+
+    <div class="showcase-stage" aria-label="Featured work carousel">
+      <div class="showcase-orbit" aria-hidden="true"></div>
+      {showcaseWorks.map((work, index) => (
+        <article class="showcase-card" data-carousel-card data-index={index}>
+          <div class="showcase-card-inner">
+            <WorkPicture work={work} sizes="(max-width: 680px) 78vw, 28vw" />
+            <div class="showcase-card-label">
+              <span>{work.id}</span>
+              <strong>{work.title}</strong>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <div class="showcase-bottom">
+      <div class="showcase-active-meta" aria-live="polite">
+        {showcaseWorks.map((work, index) => (
+          <div class="showcase-meta-item" data-carousel-meta data-index={index}>
+            <span>{work.category}</span>
+            <strong>{work.title}</strong>
+            <p>{work.outcome}</p>
+          </div>
+        ))}
+      </div>
+      <div class="showcase-actions" aria-label="Showcase next steps">
+        <a class="button is-light" href="#contact">{ctaLabels.primary}</a>
+        <a class="text-button" href="#work">See selected work</a>
+      </div>
+      <div class="showcase-dots" aria-label="Choose showcase work">
+        {showcaseWorks.map((work, index) => (
+          <button type="button" data-carousel-dot data-index={index} aria-label={`Show ${work.title}`}>
+            <span>{(index + 1).toString().padStart(2, '0')}</span>
+          </button>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

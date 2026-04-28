@@ -1,0 +1,33 @@
+---
+import { engagementOptions } from '@/data/conversion';
+---
+
+<section class="section engagement-section" id="engagement" aria-labelledby="engagement-title">
+  <div class="engagement-heading" data-reveal>
+    <div>
+      <div class="section-kicker">Ways to Start</div>
+      <h2 class="section-heading" id="engagement-title">Choose a scope without guessing the whole project.</h2>
+    </div>
+    <p class="section-intro">
+      These are not rigid packages. They are clear starting points with budget guides, so the first conversation can move quickly from vague idea to useful scope.
+    </p>
+  </div>
+  <div class="engagement-grid">
+    {engagementOptions.map((option, index) => (
+      <article class={`engagement-card ${option.recommended ? 'is-recommended' : ''}`} data-reveal>
+        <div class="engagement-card-top">
+          <span>{String(index + 1).padStart(2, '0')} / {option.label}</span>
+          <strong>{option.timeline}</strong>
+        </div>
+        <h3>{option.title}</h3>
+        <div class="engagement-price">Budget guide: {option.budgetGuide}</div>
+        <p>{option.text}</p>
+        <div class="engagement-fit">Best for: {option.bestFor}</div>
+        <ul>
+          {option.includes.map((item) => <li>{item}</li>)}
+        </ul>
+        <a class="button" href="#contact">{option.cta}</a>
+      </article>
+    ))}
+  </div>
+</section>

@@ -1,0 +1,57 @@
+---
+import '../styles/global.css';
+import BaseHead from '@/components/BaseHead.astro';
+import BookingBand from '@/components/BookingBand.astro';
+import ContactSection from '@/components/ContactSection.astro';
+import DecisionSection from '@/components/DecisionSection.astro';
+import EngagementSection from '@/components/EngagementSection.astro';
+import HeroSection from '@/components/HeroSection.astro';
+import ManifestoSection from '@/components/ManifestoSection.astro';
+import OutcomeSection from '@/components/OutcomeSection.astro';
+import ProcessSection from '@/components/ProcessSection.astro';
+import ProjectFitSection from '@/components/ProjectFitSection.astro';
+import ProofStrip from '@/components/ProofStrip.astro';
+import ServicesSection from '@/components/ServicesSection.astro';
+import ShowcaseSection from '@/components/ShowcaseSection.astro';
+import SiteFooter from '@/components/SiteFooter.astro';
+import SiteHeader from '@/components/SiteHeader.astro';
+import WorkGallery from '@/components/WorkGallery.astro';
+import { marqueeItems } from '@/data/site';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead />
+  </head>
+  <body>
+    <div class="site-shell">
+      <SiteHeader />
+
+      <main id="top">
+        <HeroSection />
+        <ProofStrip />
+        <BookingBand />
+        <OutcomeSection />
+        <ShowcaseSection />
+        <WorkGallery />
+
+        <div class="marquee-line" aria-hidden="true">
+          {[...marqueeItems, marqueeItems[0]].map((item) => <span>{item}</span>)}
+        </div>
+
+        <ServicesSection />
+        <ProjectFitSection />
+        <EngagementSection />
+        <ProcessSection />
+        <ManifestoSection />
+        <DecisionSection />
+        <ContactSection />
+      </main>
+
+      <SiteFooter />
+    </div>
+
+    <script src="../scripts/landing.ts"></script>
+  </body>
+</html>

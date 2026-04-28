@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.astro/
+.DS_Store
+.env
+.env.*
+!.env.example
+
+# Original exported source images kept outside the website asset layer
+/*.pic_hd.jpg
+
+# Local browser verification artifacts
+.playwright-mcp/
+designer-landing-*.png

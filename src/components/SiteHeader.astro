@@ -1,0 +1,14 @@
+---
+import { ctaLabels, navItems } from '@/data/site';
+---
+
+<header class="site-header" aria-label="Site header">
+  <a class="brand-mark" href="#top" aria-label="Back to top">
+    <img src="/assets/generated/mark.svg" alt="Atelier mark" width="32" height="32" />
+    <span>Visual Design Atelier</span>
+  </a>
+  <nav class="nav-links" aria-label="Main navigation">
+    {navItems.map((item) => <a href={item.href}>{item.label}</a>)}
+  </nav>
+  <a class="button header-cta" href="#contact">{ctaLabels.primary}</a>
+</header>

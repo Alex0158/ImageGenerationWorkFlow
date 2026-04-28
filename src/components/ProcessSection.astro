@@ -1,0 +1,23 @@
+---
+import { processSteps } from '@/data/services';
+---
+
+<section class="section process-section" id="process" aria-labelledby="process-title">
+  <div data-reveal>
+    <div class="section-kicker">Process</div>
+    <h2 class="section-heading" id="process-title">A clear process, so the design does not depend on guesswork.</h2>
+    <p class="section-intro">
+      Every project starts with the audience, price position, use case, and sales context. The goal is not decoration. The goal is a visual system that changes how the brand is perceived.
+    </p>
+  </div>
+  <div class="process-grid">
+    {processSteps.map((step, index) => (
+      <article class="process-card" data-reveal>
+        <div class="process-number">0{index + 1}</div>
+        <h3>{step.title}</h3>
+        <p>{step.text}</p>
+        <div class="process-output">Output: {step.output}</div>
+      </article>
+    ))}
+  </div>
+</section>

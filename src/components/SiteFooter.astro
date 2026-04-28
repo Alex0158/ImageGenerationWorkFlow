@@ -1,0 +1,14 @@
+---
+import { ctaLabels, siteMeta } from '@/data/site';
+---
+
+<footer class="site-footer">
+  <div>Visual Design Atelier / Identity / Posters / Launch Campaigns</div>
+  <div>Built for clarity, perception and use.</div>
+</footer>
+
+<nav class="mobile-cta" aria-label="Mobile quick contact">
+  <a href={siteMeta.whatsappUrl}>WhatsApp</a>
+  <a href="#contact">{ctaLabels.primary}</a>
+  <a href={`mailto:${siteMeta.email}`}>Email</a>
+</nav>

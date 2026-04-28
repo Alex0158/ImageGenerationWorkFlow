@@ -1,0 +1,32 @@
+---
+import { services } from '@/data/services';
+---
+
+<section class="section services-section" id="services" aria-labelledby="services-title">
+  <div class="services-header" data-reveal>
+    <div>
+      <div class="section-kicker">Services</div>
+      <h2 class="section-heading" id="services-title">Design support for moments that need to look ready.</h2>
+    </div>
+    <p class="section-intro">
+      Choose the level of design support around the commercial moment: identity, launch campaign, or broader art direction.
+    </p>
+  </div>
+  <div class="services-grid">
+    {services.map((service, index) => (
+      <article class={`service-card ${service.featured ? 'is-featured' : ''}`} data-reveal>
+        <div class="service-card-head">
+          <span>{String(index + 1).padStart(2, '0')}</span>
+          <strong>{service.duration}</strong>
+        </div>
+        <h3 class="service-title">{service.title}</h3>
+        <div class="service-duration">{service.label}</div>
+        <p class="service-muted">{service.fit}</p>
+        <ul>
+          {service.deliverables.map((item) => <li>{item}</li>)}
+        </ul>
+        <a class="text-button" href="#contact">{service.cta}</a>
+      </article>
+    ))}
+  </div>
+</section>

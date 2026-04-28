@@ -1,0 +1,12 @@
+---
+import { proofPoints } from '@/data/site';
+---
+
+<section class="proof-strip" aria-label="Project proof points">
+  {proofPoints.map((point) => (
+    <div class="proof-item">
+      <div class="proof-value">{point.value}</div>
+      <div class="proof-label">{point.label}</div>
+    </div>
+  ))}
+</section>

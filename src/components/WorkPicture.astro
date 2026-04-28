@@ -1,0 +1,31 @@
+---
+import type { Work } from '@/data/works';
+import { imageSrc, sourceSet } from '@/lib/images';
+
+type ImageLoading = 'eager' | 'lazy';
+type FetchPriority = 'high' | 'low' | 'auto';
+
+interface Props {
+  work: Work;
+  sizes: string;
+  alt?: string;
+  loading?: ImageLoading;
+  fetchpriority?: FetchPriority;
+}
+
+const { work, sizes, alt = work.alt, loading = 'lazy', fetchpriority } = Astro.props;
+---
+
+<picture>
+  <source type="image/avif" srcset={sourceSet(work, 'avif')} sizes={sizes} />
+  <source type="image/webp" srcset={sourceSet(work, 'webp')} sizes={sizes} />
+  <img
+    src={imageSrc(work)}
+    alt={alt}
+    width={work.width}
+    height={work.height}
+    loading={loading}
+    decoding="async"
+    fetchpriority={fetchpriority}
+  />
+</picture>
