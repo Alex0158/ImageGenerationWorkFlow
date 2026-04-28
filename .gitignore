@@ -9,6 +9,10 @@ dist/
 # Original exported source images kept outside the website asset layer
 /*.pic_hd.jpg
 
+# Unused source images in originals (force-add specific ones as needed)
+public/assets/original/Testing Image*
+public/assets/original/Ember_Oak_03_*
+
 # Local browser verification artifacts
 .playwright-mcp/
 designer-landing-*.png

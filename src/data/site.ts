@@ -75,7 +75,7 @@ export const heroAssurances: string[] = [
 
 export const proofPoints: ProofPoint[] = [
   {
-    value: '12',
+    value: '20',
     label: 'Selected commercial visuals across launches, menus, campaigns, and brand refreshes.',
   },
   {

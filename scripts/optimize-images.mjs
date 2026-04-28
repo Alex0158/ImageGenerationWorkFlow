@@ -6,19 +6,30 @@ const root = process.cwd();
 const originalsDir = path.join(root, 'public/assets/original');
 const worksDir = path.join(root, 'public/assets/works');
 
+// [source relative to project root, slug]
 const works = [
-  ['3131777339533_.pic_hd.jpg', 'culture-festival-system'],
-  ['3141777339534_.pic_hd.jpg', 'motion-sport-poster'],
-  ['3161777339536_.pic_hd.jpg', 'nightlife-opening-campaign'],
-  ['3181777339538_.pic_hd.jpg', 'rock-day-typographic-poster'],
-  ['3241777339544_.pic_hd.jpg', 'pasta-hospitality-poster'],
-  ['3251777339545_.pic_hd.jpg', 'burger-campaign-visual'],
-  ['3281777339549_.pic_hd.jpg', 'pizza-offer-design'],
-  ['3311777339551_.pic_hd.jpg', 'bar-opening-visual'],
-  ['3331777339553_.pic_hd.jpg', 'steak-menu-system'],
-  ['3171777339537_.pic_hd.jpg', 'vegetarian-menu-architecture'],
-  ['3191777339539_.pic_hd.jpg', 'pet-care-service-flyer'],
-  ['3321777339552_.pic_hd.jpg', 'coffee-opening-campaign'],
+  // Original works (already in originals as JPG)
+  ['public/assets/original/culture-festival-system.jpg', 'culture-festival-system'],
+  ['public/assets/original/motion-sport-poster.jpg', 'motion-sport-poster'],
+  ['public/assets/original/nightlife-opening-campaign.jpg', 'nightlife-opening-campaign'],
+  ['public/assets/original/rock-day-typographic-poster.jpg', 'rock-day-typographic-poster'],
+  ['public/assets/original/pasta-hospitality-poster.jpg', 'pasta-hospitality-poster'],
+  ['public/assets/original/burger-campaign-visual.jpg', 'burger-campaign-visual'],
+  ['public/assets/original/pizza-offer-design.jpg', 'pizza-offer-design'],
+  ['public/assets/original/bar-opening-visual.jpg', 'bar-opening-visual'],
+  ['public/assets/original/steak-menu-system.jpg', 'steak-menu-system'],
+  ['public/assets/original/vegetarian-menu-architecture.jpg', 'vegetarian-menu-architecture'],
+  ['public/assets/original/pet-care-service-flyer.jpg', 'pet-care-service-flyer'],
+  ['public/assets/original/coffee-opening-campaign.jpg', 'coffee-opening-campaign'],
+  // New works (PNG)
+  ['public/assets/original/Ember_Oak_Specialty_Coffee_Poster.png', 'ember-oak-coffee-poster'],
+  ['public/assets/original/Ember_Oak_04_Coffee_After_Dark_Poster.png', 'ember-oak-coffee-after-dark'],
+  ['public/assets/original/steakhouse-direct-2026-04-26T17-48-01-947Z.png', 'ironwood-steakhouse-campaign'],
+  ['public/assets/original/pizza-menu.png', 'classic-pizza-menu'],
+  ['public/assets/original/Testing Image Apr 28, 2026 at 08_21_19 PM.png', 'cucina-vera-italian-menu'],
+  ['public/assets/original/Testing Image Apr 28, 2026 at 08_20_16 PM.png', 'cucina-vera-chef-campaign'],
+  ['public/assets/original/Testing Image Apr 26, 2026 at 06_25_27 PM.png', 'sweet-moments-bakery-poster'],
+  ['public/assets/original/Testing Image Apr 27, 2026 at 01_19_24 AM.png', 'fish-chips-menu-system'],
 ];
 
 const sizes = [480, 720, 1200];
@@ -28,8 +39,13 @@ await fs.mkdir(worksDir, { recursive: true });
 
 for (const [source, slug] of works) {
   const input = path.join(root, source);
-  const originalTarget = path.join(originalsDir, `${slug}.jpg`);
-  await fs.copyFile(input, originalTarget);
+
+  try {
+    await fs.access(input);
+  } catch {
+    console.warn(`⚠ skipped ${slug}: source not found`);
+    continue;
+  }
 
   const metadata = await sharp(input).metadata();
   const maxWidth = metadata.width ?? 1200;
@@ -48,5 +64,5 @@ for (const [source, slug] of works) {
       .toFile(`${base}.avif`);
   }
 
-  console.log(`${slug}: ${metadata.width}x${metadata.height}`);
+  console.log(`✓ ${slug}: ${metadata.width}x${metadata.height}`);
 }
