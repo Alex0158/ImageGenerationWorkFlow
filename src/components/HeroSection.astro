@@ -12,7 +12,7 @@ const heroClasses = ['is-main', 'is-side', 'is-small', 'is-strip'];
     <h1 id="hero-title">Brand visuals with a sharper first impression.</h1>
     <p class="hero-catalog">Brand Identity / Posters / Menus / Social Campaigns / Launch Systems</p>
     <div class="hero-preview-row" aria-label="Fast preview of selected work">
-      {heroWorks.map((work) => <WorkPicture work={work} sizes="110px" alt="" loading="eager" fetchpriority="high" />)}
+      {heroWorks.map((work, i) => <WorkPicture work={work} sizes="110px" alt="" loading="eager" fetchpriority={i === 0 ? 'high' : 'auto'} />)}
       <span>Selected commercial systems</span>
     </div>
     <p class="hero-subcopy">
