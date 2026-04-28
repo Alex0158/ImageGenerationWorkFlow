@@ -1,4 +1,20 @@
-export const services = [
+interface Service {
+  title: string;
+  label: string;
+  duration: string;
+  featured?: boolean;
+  fit: string;
+  deliverables: string[];
+  cta: string;
+}
+
+interface ProcessStep {
+  title: string;
+  text: string;
+  output: string;
+}
+
+export const services: Service[] = [
   {
     title: 'Visual Identity',
     label: 'For brands that need to look polished, memorable, and instantly credible.',
@@ -26,7 +42,7 @@ export const services = [
   },
 ];
 
-export const processSteps = [
+export const processSteps: ProcessStep[] = [
   {
     title: 'Read the Market',
     text: 'We clarify your audience, price position, competitors, visual references, and the exact moment your customer needs to trust you.',

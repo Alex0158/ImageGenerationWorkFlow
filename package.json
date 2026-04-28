@@ -11,9 +11,9 @@
     "optimize:images": "node scripts/optimize-images.mjs"
   },
   "dependencies": {
-    "@astrojs/check": "latest",
-    "astro": "latest",
-    "sharp": "latest",
+    "@astrojs/check": "^0.9.8",
+    "astro": "^6.1.9",
+    "sharp": "^0.34.5",
     "typescript": "^5.9.3"
   }
 }

@@ -1,4 +1,43 @@
-export const siteMeta = {
+interface SiteMeta {
+  name: string;
+  title: string;
+  description: string;
+  ogDescription: string;
+  areaServed: string;
+  serviceTypes: string[];
+  email: string;
+  whatsappUrl: string;
+  instagramUrl: string;
+}
+
+interface NavItem {
+  label: string;
+  href: string;
+}
+
+interface CtaLabels {
+  primary: string;
+  secondary: string;
+  compareScopes: string;
+  submitBrief: string;
+}
+
+interface ProofPoint {
+  value: string;
+  label: string;
+}
+
+interface ContactLink {
+  label: string;
+  href: string;
+}
+
+interface BriefPromise {
+  number: string;
+  title: string;
+}
+
+export const siteMeta: SiteMeta = {
   name: 'Independent Graphic Design Atelier',
   title: 'Graphic Designer | Brand Identity & Campaign Design',
   description:
@@ -11,7 +50,7 @@ export const siteMeta = {
   instagramUrl: 'https://instagram.com/',
 };
 
-export const navItems = [
+export const navItems: NavItem[] = [
   { label: 'Showcase', href: '#showcase' },
   { label: 'Work', href: '#work' },
   { label: 'Services', href: '#services' },
@@ -20,21 +59,21 @@ export const navItems = [
   { label: 'Brief', href: '#contact' },
 ];
 
-export const ctaLabels = {
+export const ctaLabels: CtaLabels = {
   primary: 'Send a Brief',
   secondary: 'View the Work',
   compareScopes: 'Compare Scopes',
   submitBrief: 'Send Project Brief',
 };
 
-export const heroAssurances = [
+export const heroAssurances: string[] = [
   'Projects from HKD 5,000+',
   '24-48h first reply',
   'Scope before design starts',
   'Files prepared for print and digital use',
 ];
 
-export const proofPoints = [
+export const proofPoints: ProofPoint[] = [
   {
     value: '12',
     label: 'Selected commercial visuals across launches, menus, campaigns, and brand refreshes.',
@@ -53,26 +92,26 @@ export const proofPoints = [
   },
 ];
 
-export const marqueeItems = [
+export const marqueeItems: string[] = [
   'Less decoration. More direction.',
   'Designed for perception, built for use.',
   'From first impression to final file.',
   'A visual system your brand can actually use.',
 ];
 
-export const contactLinks = [
+export const contactLinks: ContactLink[] = [
   { label: 'Email', href: `mailto:${siteMeta.email}` },
   { label: 'WhatsApp', href: siteMeta.whatsappUrl },
   { label: 'Instagram', href: siteMeta.instagramUrl },
 ];
 
-export const briefPromise = [
+export const briefPromise: BriefPromise[] = [
   { number: '01', title: 'Tell me the goal' },
   { number: '02', title: 'I shape the scope' },
   { number: '03', title: 'You get a clear next step' },
 ];
 
-export const projectTypeOptions = [
+export const projectTypeOptions: string[] = [
   'Brand Identity',
   'Poster / Editorial',
   'Social Media Kit',
@@ -81,7 +120,7 @@ export const projectTypeOptions = [
   'Not sure yet',
 ];
 
-export const budgetOptions = [
+export const budgetOptions: string[] = [
   'Under HKD 5,000',
   'HKD 5,000 - 15,000',
   'HKD 15,000 - 35,000',
@@ -89,4 +128,4 @@ export const budgetOptions = [
   'Not sure yet',
 ];
 
-export const timelineOptions = ['ASAP', '2-4 weeks', '1-2 months', 'Flexible'];
+export const timelineOptions: string[] = ['ASAP', '2-4 weeks', '1-2 months', 'Flexible'];

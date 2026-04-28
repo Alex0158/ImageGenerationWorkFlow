@@ -210,6 +210,7 @@
 
 @media (max-width: 680px) {
   body { padding-bottom: 104px; }
+  body::before, body::after { display: none; }
   .header-cta { display: none; }
   .site-header { padding-block: 14px; }
   .brand-mark span { display: none; }

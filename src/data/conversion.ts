@@ -1,4 +1,39 @@
-export const outcomeShifts = [
+interface OutcomeShift {
+  label: string;
+  title: string;
+  text: string;
+}
+
+interface ProjectFit {
+  label: string;
+  title: string;
+  bestFor: string;
+  action: string;
+}
+
+interface EngagementOption {
+  label: string;
+  title: string;
+  timeline: string;
+  budgetGuide: string;
+  recommended?: boolean;
+  text: string;
+  bestFor: string;
+  includes: string[];
+  cta: string;
+}
+
+interface BookingCue {
+  label: string;
+  value: string;
+}
+
+interface DecisionNote {
+  question: string;
+  answer: string;
+}
+
+export const outcomeShifts: OutcomeShift[] = [
   {
     label: 'Recognition',
     title: 'Your brand becomes easier to remember.',
@@ -21,7 +56,7 @@ export const outcomeShifts = [
   },
 ];
 
-export const projectFits = [
+export const projectFits: ProjectFit[] = [
   {
     label: 'Launch soon',
     title: 'You need the brand to look ready before the public sees it.',
@@ -42,7 +77,7 @@ export const projectFits = [
   },
 ];
 
-export const engagementOptions = [
+export const engagementOptions: EngagementOption[] = [
   {
     label: 'Focused start',
     title: 'Identity Sprint',
@@ -76,13 +111,13 @@ export const engagementOptions = [
   },
 ];
 
-export const bookingCues = [
+export const bookingCues: BookingCue[] = [
   { label: 'Starting point', value: 'HKD 5,000+' },
   { label: 'First reply', value: '24-48h' },
   { label: 'Best for', value: 'Identity / Campaign / Launch' },
 ];
 
-export const decisionNotes = [
+export const decisionNotes: DecisionNote[] = [
   {
     question: 'Do I need a finished brief before contacting you?',
     answer:

@@ -211,6 +211,10 @@
   color: var(--ink);
   transform: translateY(-2px);
 }
+.showcase-control:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 4px;
+}
 .showcase-counter {
   justify-self: center;
   color: var(--gold);
@@ -442,6 +446,10 @@
   color: var(--ink);
   transform: translateY(-2px);
 }
+.showcase-dots button:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
 
 
 .marquee-line {
@@ -457,7 +465,7 @@
   text-transform: uppercase;
   white-space: nowrap;
 }
-.marquee-line span { animation: drift 22s linear infinite; }
+.marquee-line span { animation: drift 22s linear infinite; will-change: transform; }
 @keyframes drift { to { transform: translateX(calc(-100% - 28px)); } }
 @keyframes floatMain { to { transform: translate3d(0, -10px, 0) rotate(-1.2deg); } }
 @keyframes floatSide { to { transform: translate3d(-8px, 8px, 0) rotate(2deg); } }
@@ -840,7 +848,7 @@
   left: 12px;
   right: 12px;
   bottom: max(10px, env(safe-area-inset-bottom));
-  z-index: 45;
+  z-index: var(--z-mobile-cta);
   display: none;
   grid-template-columns: 1fr 1.2fr 1fr;
   gap: 1px;

@@ -1,3 +1,7 @@
+const SCROLL_MARGIN_FALLBACK = 84;
+const REVEAL_THRESHOLD = 0.12;
+const CAROUSEL_INTERVAL_MS = 4800;
+
 const revealItems = document.querySelectorAll('[data-reveal]');
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -9,7 +13,8 @@ const correctHashScroll = (behavior: ScrollBehavior = 'auto') => {
   const target = document.getElementById(id);
   if (!target) return;
 
-  const marginTop = Number.parseFloat(window.getComputedStyle(target).scrollMarginTop) || 84;
+  const marginTop =
+    Number.parseFloat(window.getComputedStyle(target).scrollMarginTop) || SCROLL_MARGIN_FALLBACK;
   const top = target.getBoundingClientRect().top + window.scrollY - marginTop;
   window.scrollTo({
     top: Math.max(0, top),
@@ -38,7 +43,7 @@ if (prefersReducedMotion) {
         }
       });
     },
-    { threshold: 0.12 },
+    { threshold: REVEAL_THRESHOLD },
   );
 
   revealItems.forEach((item) => observer.observe(item));
@@ -88,7 +93,7 @@ carousels.forEach((carousel) => {
   const start = () => {
     if (prefersReducedMotion) return;
     if (timer) window.clearInterval(timer);
-    timer = window.setInterval(() => setActive(active + 1), 4800);
+    timer = window.setInterval(() => setActive(active + 1), CAROUSEL_INTERVAL_MS);
   };
 
   prev.addEventListener('click', () => {
@@ -101,7 +106,8 @@ carousels.forEach((carousel) => {
   });
   dots.forEach((dot) => {
     dot.addEventListener('click', () => {
-      setActive(Number(dot.dataset.index));
+      const idx = Number(dot.dataset.index);
+      if (!Number.isNaN(idx)) setActive(idx);
       start();
     });
   });
@@ -130,6 +136,13 @@ briefForm?.addEventListener('submit', (event) => {
   const budget = String(formData.get('budget') || '').trim();
   const timeline = String(formData.get('timeline') || '').trim();
   const message = String(formData.get('message') || '').trim();
+
+  if (!name || !contact || !projectType) {
+    if (briefStatus) {
+      briefStatus.textContent = 'Please fill in your name, contact, and project type.';
+    }
+    return;
+  }
 
   const subject = `Project brief${brand ? `: ${brand}` : ''}`;
   const body = [

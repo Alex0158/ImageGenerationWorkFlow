@@ -9,13 +9,13 @@ importers:
   .:
     dependencies:
       '@astrojs/check':
-        specifier: latest
+        specifier: ^0.9.8
         version: 0.9.8(prettier@3.8.3)(typescript@5.9.3)
       astro:
-        specifier: latest
+        specifier: ^6.1.9
         version: 6.1.9(rollup@4.60.2)(typescript@5.9.3)(yaml@2.8.3)
       sharp:
-        specifier: latest
+        specifier: ^0.34.5
         version: 0.34.5
       typescript:
         specifier: ^5.9.3

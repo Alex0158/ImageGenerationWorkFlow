@@ -65,9 +65,9 @@
   height: 100%;
   object-fit: cover;
   filter: saturate(.88) contrast(.97) brightness(.99);
-  transition: transform .8s var(--ease), filter .8s var(--ease);
+  transition: transform .8s var(--ease);
 }
-.work-card:hover .work-image img { transform: scale(1.035); filter: saturate(.98) contrast(1.02); }
+.work-card:hover .work-image img { transform: scale(1.035); }
 .work-card:hover .work-image::after {
   opacity: 1;
   transform: translateY(0);

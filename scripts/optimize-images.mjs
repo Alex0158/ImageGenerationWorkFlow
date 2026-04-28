@@ -44,7 +44,7 @@ for (const [source, slug] of works) {
       .toFile(`${base}.webp`);
     await sharp(input)
       .resize({ width, withoutEnlargement: true })
-      .avif({ quality: 60, effort: 5 })
+      .avif({ quality: 68, effort: 5 })
       .toFile(`${base}.avif`);
   }
 
