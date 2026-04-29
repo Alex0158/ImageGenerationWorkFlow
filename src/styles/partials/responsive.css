@@ -131,6 +131,10 @@
   .site-header { padding-block: 14px; }
   .brand-mark span { display: none; }
   .section { padding-block: var(--section); }
+  section[id],
+  #top {
+    scroll-margin-top: 64px;
+  }
 
   .section-heading,
   .showcase-title,
