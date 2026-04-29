@@ -94,7 +94,6 @@
   display: flex;
   align-items: center;
   gap: 0;
-  margin-top: 18px;
   margin: 18px 0 0;
   padding: 0;
   list-style: none;
@@ -193,13 +192,10 @@
   list-style: none;
 }
 .hero-assurance-row li {
-  margin: 0;
-  padding: 0;
-}
-.hero-assurance-row li {
   display: inline-flex;
   align-items: center;
   min-height: 32px;
+  margin: 0;
   padding: 0 12px;
   border: 1px solid rgba(244, 239, 231, .18);
   border-radius: 999px;

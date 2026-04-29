@@ -277,9 +277,16 @@
   .services-grid, .engagement-grid { gap: 12px; }
   .service-card, .engagement-card { gap: 0; }
   .service-title, .engagement-card h3 { font-size: 42px; line-height: .95; }
-  .service-card-head, .engagement-card-top { display: grid; gap: 8px; }
-  .service-card-head strong, .engagement-card-top strong { text-align: left; }
-  .service-card-head, .engagement-card-top { margin-bottom: 30px; }
+  .service-card-head,
+  .engagement-card-top {
+    display: grid;
+    gap: 8px;
+    margin-bottom: 30px;
+  }
+  .service-card-head strong,
+  .engagement-card-top strong {
+    text-align: left;
+  }
   .service-card ul, .engagement-card ul { margin: 24px 0 20px; }
   .service-card .text-button, .engagement-card .button { width: 100%; }
   .engagement-price { max-width: 100%; white-space: normal; }
