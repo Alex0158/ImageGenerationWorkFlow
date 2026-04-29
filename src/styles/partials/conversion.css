@@ -121,6 +121,8 @@
   gap: 14px;
   align-items: stretch;
   margin-top: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .service-card {
@@ -292,6 +294,9 @@
   grid-template-columns: repeat(12, minmax(0, 1fr));
   gap: 14px;
   align-items: stretch;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .engagement-card {

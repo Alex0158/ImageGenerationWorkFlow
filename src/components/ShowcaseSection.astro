@@ -4,6 +4,11 @@ import { ctaLabels } from '@/data/site';
 import { featuredWorks } from '@/data/works';
 
 const showcaseWorks = featuredWorks.slice(0, 10);
+const getShowcaseIds = (slug: string, index: number) => ({
+  cardId: `showcase-card-${slug}-${index}`,
+  metaId: `showcase-meta-${slug}-${index}`,
+  dotId: `showcase-dot-${slug}-${index}`,
+});
 ---
 
 <section class="showcase-section" id="showcase" aria-labelledby="showcase-title">
@@ -25,7 +30,14 @@ const showcaseWorks = featuredWorks.slice(0, 10);
     <div class="showcase-stage" aria-label="Featured work carousel">
       <div class="showcase-orbit" aria-hidden="true"></div>
       {showcaseWorks.map((work, index) => (
-        <article class="showcase-card" data-carousel-card data-index={index}>
+        <article
+          class="showcase-card"
+          data-carousel-card
+          data-index={index}
+          id={getShowcaseIds(work.slug, index).cardId}
+          aria-label={`Showcase card ${index + 1}: ${work.title}`}
+          aria-hidden="true"
+        >
           <div class="showcase-card-inner">
             <WorkPicture work={work} sizes="(max-width: 680px) 78vw, 28vw" />
             <div class="showcase-card-label">
@@ -40,7 +52,7 @@ const showcaseWorks = featuredWorks.slice(0, 10);
     <div class="showcase-bottom">
       <div class="showcase-active-meta" aria-live="polite">
         {showcaseWorks.map((work, index) => (
-          <div class="showcase-meta-item" data-carousel-meta data-index={index}>
+          <div class="showcase-meta-item" data-carousel-meta data-index={index} id={getShowcaseIds(work.slug, index).metaId}>
             <span>{work.category}</span>
             <strong>{work.title}</strong>
             <p>{work.outcome}</p>
@@ -53,7 +65,15 @@ const showcaseWorks = featuredWorks.slice(0, 10);
       </div>
       <div class="showcase-dots" aria-label="Choose showcase work">
         {showcaseWorks.map((work, index) => (
-          <button type="button" data-carousel-dot data-index={index} aria-label={`Show ${work.title}`}>
+          <button
+            type="button"
+            data-carousel-dot
+            data-index={index}
+            data-controls={getShowcaseIds(work.slug, index).cardId}
+            data-describedby={getShowcaseIds(work.slug, index).metaId}
+            id={getShowcaseIds(work.slug, index).dotId}
+            aria-label={`Show ${work.title}`}
+          >
             <span>{(index + 1).toString().padStart(2, '0')}</span>
           </button>
         ))}

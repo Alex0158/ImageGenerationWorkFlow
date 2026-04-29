@@ -95,6 +95,13 @@ h1 {
   align-items: center;
   gap: 0;
   margin-top: 18px;
+  margin: 18px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.hero-preview-row li {
+  margin: 0;
+  padding: 0;
 }
 .hero-preview-row picture {
   display: block;
@@ -113,9 +120,11 @@ h1 {
   height: 100%;
   object-fit: cover;
 }
-.hero-preview-row span {
-  max-width: 220px;
+.hero-preview-row li:not(:first-child) {
   margin-left: 18px;
+}
+.hero-preview-row li:last-child {
+  max-width: 220px;
   color: rgba(244, 239, 231, .64);
   font-family: var(--mono);
   font-size: 10px;
@@ -181,8 +190,15 @@ h1 {
   gap: 8px;
   max-width: 660px;
   margin-top: 20px;
+  margin: 20px 0 0;
+  padding: 0;
+  list-style: none;
 }
-.hero-assurance-row span {
+.hero-assurance-row li {
+  margin: 0;
+  padding: 0;
+}
+.hero-assurance-row li {
   display: inline-flex;
   align-items: center;
   min-height: 32px;

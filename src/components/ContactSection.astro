@@ -8,6 +8,8 @@ import {
   siteMeta,
   timelineOptions,
 } from '@/data/site';
+
+const isExternalLink = (href: string) => /^https?:\/\//i.test(href);
 ---
 
 <section class="contact-section" id="contact" aria-labelledby="contact-title">
@@ -29,9 +31,20 @@ import {
           </div>
         ))}
       </div>
-      <div class="contact-links" aria-label="Direct contact links">
-        {contactLinks.map((link) => <a class="button" href={link.href}>{link.label}</a>)}
-      </div>
+      <ul class="contact-links" aria-label="Direct contact links">
+        {contactLinks.map((link) => (
+          <li>
+            <a
+              class="button"
+              href={link.href}
+              target={isExternalLink(link.href) ? '_blank' : undefined}
+              rel={isExternalLink(link.href) ? 'noopener noreferrer' : undefined}
+            >
+              {link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
     </div>
 
     <form class="brief-form" action={`mailto:${siteMeta.email}`} method="post" enctype="text/plain" data-brief-form data-brief-email={siteMeta.email}>
@@ -42,62 +55,79 @@ import {
       <div class="form-row">
         <div class="form-field">
           <label for="name">Name</label>
-          <input id="name" name="name" autocomplete="name" placeholder="Your name or brand contact" required />
-          <div class="helper">So I know who I am speaking with.</div>
+          <input id="name" name="name" autocomplete="name" placeholder="Your name or brand contact" required aria-describedby="name-help" />
+          <div id="name-help" class="helper">So I know who I am speaking with.</div>
         </div>
         <div class="form-field">
           <label for="brand">Brand / Project Name</label>
-          <input id="brand" name="brand" placeholder="Example: cafe opening, product launch, personal brand refresh" />
-          <div class="helper">If there is no final name yet, describe the project type.</div>
+          <input
+            id="brand"
+            name="brand"
+            placeholder="Example: cafe opening, product launch, personal brand refresh"
+            aria-describedby="brand-help"
+          />
+          <div id="brand-help" class="helper">If there is no final name yet, describe the project type.</div>
         </div>
       </div>
 
       <div class="form-row">
         <div class="form-field">
           <label for="contact-method">Email or WhatsApp</label>
-          <input id="contact-method" name="contact" autocomplete="email" placeholder="email@example.com / WhatsApp number" required />
-          <div class="helper">Leave the easiest way to reply.</div>
+          <input
+            id="contact-method"
+            name="contact"
+            autocomplete="email"
+            placeholder="email@example.com / WhatsApp number"
+            required
+            aria-describedby="contact-help"
+          />
+          <div id="contact-help" class="helper">Leave the easiest way to reply.</div>
         </div>
         <div class="form-field">
           <label for="project-type">Project Type</label>
-          <select id="project-type" name="project_type" required>
+          <select id="project-type" name="project_type" required aria-describedby="project-type-help">
             <option value="">Select one</option>
             {projectTypeOptions.map((option) => <option>{option}</option>)}
           </select>
-          <div class="helper">Choose Not sure yet if you want help shaping the scope.</div>
+          <div id="project-type-help" class="helper">Choose "Not sure yet" if you need help setting the scope.</div>
         </div>
       </div>
 
       <div class="form-row">
         <div class="form-field">
           <label for="budget">Budget Range</label>
-          <select id="budget" name="budget" required>
+          <select id="budget" name="budget" required aria-describedby="budget-help">
             <option value="">Select one</option>
             {budgetOptions.map((option) => <option>{option}</option>)}
           </select>
-          <div class="helper">Budget range helps define the right depth of design work.</div>
+          <div id="budget-help" class="helper">Budget range helps define the right depth of design work.</div>
         </div>
         <div class="form-field">
           <label for="timeline">Timeline</label>
-          <select id="timeline" name="timeline" required>
+          <select id="timeline" name="timeline" required aria-describedby="timeline-help">
             <option value="">Select one</option>
             {timelineOptions.map((option) => <option>{option}</option>)}
           </select>
-          <div class="helper">For urgent launches, include the hard deadline in the message.</div>
+          <div id="timeline-help" class="helper">For urgent launches, include the hard deadline in the message.</div>
         </div>
       </div>
 
       <div class="form-field">
         <label for="message">What are you trying to design or improve?</label>
-        <textarea id="message" name="message" placeholder="Example: We are opening a cafe and need branding, menu design, opening posters, and Instagram launch assets."></textarea>
-        <div class="helper">Describe the goal, current visual problem, desired style, and any references.</div>
+        <textarea
+          id="message"
+          name="message"
+          placeholder="Example: We are opening a cafe and need branding, menu design, opening posters, and Instagram launch assets."
+          aria-describedby="message-help"
+        ></textarea>
+        <div id="message-help" class="helper">Describe the goal, current visual problem, desired style, and any references.</div>
       </div>
 
       <div class="form-footer">
         <button class="button is-dark" type="submit">{ctaLabels.submitBrief}</button>
         <span class="helper">I reply within 24-48 hours with the clearest next step for your project.</span>
       </div>
-      <div class="form-status" aria-live="polite" data-brief-status></div>
+      <div class="form-status" role="status" aria-live="polite" data-brief-status></div>
     </form>
   </div>
 </section>

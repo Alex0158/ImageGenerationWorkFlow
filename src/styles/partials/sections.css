@@ -3,6 +3,9 @@
   grid-template-columns: repeat(4, 1fr);
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 .proof-item {
   padding: 24px var(--outer);
@@ -78,6 +81,9 @@
   align-self: stretch;
   border: 1px solid rgba(20, 17, 15, .16);
   background: rgba(20, 17, 15, .14);
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 .outcome-card {
   position: relative;
@@ -489,6 +495,9 @@
   border: 1px solid var(--ink);
   background: var(--ink);
   box-shadow: 0 30px 86px rgba(38, 27, 17, .12);
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 .fit-card {
   position: relative;
@@ -588,9 +597,11 @@
 .process-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  margin-top: 44px;
   border-top: 1px solid rgba(244,239,231,.22);
   border-left: 1px solid rgba(244,239,231,.22);
+  margin: 44px 0 0;
+  padding: 0;
+  list-style: none;
 }
 .process-card {
   position: relative;
@@ -692,6 +703,9 @@
   z-index: 1;
   display: grid;
   border-top: 1px solid rgba(20, 17, 15, .16);
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 .decision-item {
   display: grid;
@@ -744,6 +758,12 @@
 }
 .contact-text { color: var(--muted); line-height: 1.8; font-size: 16px; }
 .contact-links { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+.contact-links,
+.contact-links li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
 .brief-promise {
   display: grid;
   gap: 1px;
@@ -802,6 +822,12 @@
 }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .form-field { display: grid; gap: 8px; }
+.form-field.is-invalid input,
+.form-field.is-invalid select,
+.form-field.is-invalid textarea {
+  border-color: var(--oxide);
+  outline: 1px solid var(--oxide);
+}
 .form-field label {
   font-family: var(--mono);
   font-size: 11px;
@@ -828,6 +854,9 @@
   color: var(--clay);
   font-size: 12px;
   line-height: 1.5;
+}
+.form-status.is-error {
+  color: var(--oxide);
 }
 
 .site-footer {

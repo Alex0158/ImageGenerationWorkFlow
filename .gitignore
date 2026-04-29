@@ -16,3 +16,4 @@ public/assets/original/Ember_Oak_03_*
 # Local browser verification artifacts
 .playwright-mcp/
 designer-landing-*.png
+.vercel

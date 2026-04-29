@@ -13,14 +13,14 @@ import { ctaLabels } from '@/data/site';
       </p>
       <a class="button is-dark" href="#contact">{ctaLabels.primary}</a>
     </div>
-    <div class="outcome-grid">
+    <ul class="outcome-grid" aria-label="Outcome outcomes">
       {outcomeShifts.map((item, index) => (
-        <article class="outcome-card">
+        <li class="outcome-card">
           <span>{String(index + 1).padStart(2, '0')} / {item.label}</span>
           <h3>{item.title}</h3>
           <p>{item.text}</p>
-        </article>
+        </li>
       ))}
-    </div>
+    </ul>
   </div>
 </section>

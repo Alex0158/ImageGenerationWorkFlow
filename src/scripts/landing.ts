@@ -9,7 +9,34 @@ const COUNTER_DURATION_MS = 1600;
 const STAGGER_DELAY_MS = 120;
 const TILT_MAX_DEG = 6;
 
-const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+const prefersReducedMotion = () => reducedMotionQuery.matches;
+
+/**
+ * Get fallback scroll-margin-top in case CSS variable is unavailable.
+ */
+const getScrollMarginFallback = () => {
+  const cssValue = getComputedStyle(document.documentElement)
+    .getPropertyValue('--scroll-margin-top')
+    .trim()
+    .replace('px', '');
+  const parsed = Number.parseFloat(cssValue);
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : SCROLL_MARGIN_FALLBACK;
+};
+
+const decodeHash = (raw: string) => {
+  try {
+    return decodeURIComponent(raw);
+  } catch (_error) {
+    return raw;
+  }
+};
+
+const showAllRevealsImmediately = (items: NodeListOf<HTMLElement>) => {
+  items.forEach((item) => {
+    item.classList.add('is-visible');
+  });
+};
 
 /* ==========================================================================
    Hash scroll correction
@@ -19,21 +46,20 @@ const correctHashScroll = (behavior: ScrollBehavior = 'auto') => {
   const rawHash = window.location.hash.slice(1);
   if (!rawHash) return;
 
-  const id = decodeURIComponent(rawHash);
+  const id = decodeHash(rawHash);
   const target = document.getElementById(id);
   if (!target) return;
 
-  const marginTop =
-    Number.parseFloat(window.getComputedStyle(target).scrollMarginTop) || SCROLL_MARGIN_FALLBACK;
+  const marginTop = Number.parseFloat(window.getComputedStyle(target).scrollMarginTop) || getScrollMarginFallback();
   const top = target.getBoundingClientRect().top + window.scrollY - marginTop;
   window.scrollTo({
     top: Math.max(0, top),
-    behavior: prefersReducedMotion ? 'auto' : behavior,
+    behavior: prefersReducedMotion() ? 'auto' : behavior,
   });
 };
 
 const scheduleHashCorrection = (behavior: ScrollBehavior = 'auto') => {
-  window.requestAnimationFrame(() => correctHashScroll(behavior));
+  requestAnimationFrame(() => correctHashScroll(behavior));
 };
 
 scheduleHashCorrection();
@@ -53,8 +79,8 @@ staggerContainers.forEach((container) => {
   container.querySelectorAll('[data-reveal]').forEach((child) => staggerChildren.add(child));
 });
 
-if (prefersReducedMotion) {
-  revealItems.forEach((item) => item.classList.add('is-visible'));
+if (prefersReducedMotion()) {
+  showAllRevealsImmediately(revealItems);
 } else {
   const revealObserver = new IntersectionObserver(
     (entries) => {
@@ -68,25 +94,26 @@ if (prefersReducedMotion) {
     { threshold: REVEAL_THRESHOLD },
   );
 
-  revealItems.forEach((item) => {
-    if (!staggerChildren.has(item)) revealObserver.observe(item);
-  });
-
   const staggerObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
+
         const children = [...entry.target.querySelectorAll<HTMLElement>('[data-reveal]')];
         children.forEach((child, i) => {
           child.style.transitionDelay = `${i * STAGGER_DELAY_MS}ms`;
           requestAnimationFrame(() => child.classList.add('is-visible'));
         });
+
         staggerObserver.unobserve(entry.target);
       });
     },
     { threshold: 0.08 },
   );
 
+  revealItems.forEach((item) => {
+    if (!staggerChildren.has(item)) revealObserver.observe(item);
+  });
   staggerContainers.forEach((container) => staggerObserver.observe(container));
 }
 
@@ -100,12 +127,12 @@ if (proofStrip) {
 
   const animateCounter = (el: HTMLElement) => {
     const target = el.dataset.countTarget ?? '';
-    const numericMatch = target.match(/^(\d+)$/);
+    const numericMatch = target.match(/^([0-9]+)$/);
 
     if (!numericMatch) {
       el.style.opacity = '0';
       requestAnimationFrame(() => {
-        el.style.transition = `opacity .8s var(--ease)`;
+        el.style.transition = 'opacity .8s var(--ease)';
         el.style.opacity = '1';
         el.textContent = target;
       });
@@ -128,8 +155,10 @@ if (proofStrip) {
     requestAnimationFrame(step);
   };
 
-  if (prefersReducedMotion) {
-    counters.forEach((el) => { el.textContent = el.dataset.countTarget ?? ''; });
+  if (prefersReducedMotion()) {
+    counters.forEach((el) => {
+      el.textContent = el.dataset.countTarget ?? '';
+    });
   } else {
     const counterObserver = new IntersectionObserver(
       (entries) => {
@@ -152,7 +181,7 @@ if (proofStrip) {
    Work card 3D tilt effect
    ========================================================================== */
 
-if (!prefersReducedMotion) {
+if (!prefersReducedMotion()) {
   const workCards = document.querySelectorAll<HTMLElement>('.work-card');
 
   workCards.forEach((card) => {
@@ -160,6 +189,7 @@ if (!prefersReducedMotion) {
     if (!image) return;
 
     card.addEventListener('mousemove', (e: MouseEvent) => {
+      if (prefersReducedMotion()) return;
       const rect = image.getBoundingClientRect();
       const x = (e.clientX - rect.left) / rect.width;
       const y = (e.clientY - rect.top) / rect.height;
@@ -179,7 +209,7 @@ if (!prefersReducedMotion) {
    Scroll progress bar
    ========================================================================== */
 
-if (!prefersReducedMotion) {
+if (!prefersReducedMotion()) {
   const progressBar = document.createElement('div');
   progressBar.className = 'scroll-progress';
   progressBar.setAttribute('aria-hidden', 'true');
@@ -210,8 +240,14 @@ if (!prefersReducedMotion) {
    Carousel
    ========================================================================== */
 
-const carousels = document.querySelectorAll<HTMLElement>('[data-carousel]');
-carousels.forEach((carousel) => {
+type CarouselController = {
+  start: () => void;
+  stop: () => void;
+};
+
+const carouselControllers: CarouselController[] = [];
+
+const mountCarousel = (carousel: HTMLElement) => {
   const cards = [...carousel.querySelectorAll<HTMLElement>('[data-carousel-card]')];
   const dots = [...carousel.querySelectorAll<HTMLButtonElement>('[data-carousel-dot]')];
   const metaItems = [...carousel.querySelectorAll<HTMLElement>('[data-carousel-meta]')];
@@ -221,29 +257,40 @@ carousels.forEach((carousel) => {
   if (!cards.length || !current || !prev || !next) return;
 
   let active = 0;
-  let timer: number | undefined;
+  let timer: ReturnType<typeof setInterval> | undefined;
 
   const setActive = (nextIndex: number) => {
-    active = (nextIndex + cards.length) % cards.length;
+    const total = cards.length;
+    active = ((nextIndex % total) + total) % total;
     current.textContent = String(active + 1).padStart(2, '0');
 
     cards.forEach((card, index) => {
-      const offset = (index - active + cards.length) % cards.length;
-      const reverseOffset = (active - index + cards.length) % cards.length;
+      const offset = (index - active + total) % total;
+      const reverseOffset = (active - index + total) % total;
+
       let slot = 'hidden';
-      if (offset === 0) slot = 'active';
-      else if (offset === 1) slot = 'next';
-      else if (offset === 2) slot = 'far-next';
-      else if (reverseOffset === 1) slot = 'prev';
-      else if (reverseOffset === 2) slot = 'far-prev';
+      if (offset === 0) {
+        slot = 'active';
+      } else if (offset === 1) {
+        slot = 'next';
+      } else if (offset === 2) {
+        slot = 'far-next';
+      } else if (reverseOffset === 1) {
+        slot = 'prev';
+      } else if (reverseOffset === 2) {
+        slot = 'far-prev';
+      }
 
       card.dataset.slot = slot;
       card.setAttribute('aria-hidden', slot === 'hidden' ? 'true' : 'false');
     });
 
     dots.forEach((dot, index) => {
-      dot.classList.toggle('is-active', index === active);
-      dot.setAttribute('aria-current', index === active ? 'true' : 'false');
+      const isActive = index === active;
+      dot.classList.toggle('is-active', isActive);
+      dot.setAttribute('aria-current', isActive ? 'true' : 'false');
+      dot.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      dot.tabIndex = isActive ? 0 : -1;
     });
 
     metaItems.forEach((item, index) => {
@@ -251,39 +298,113 @@ carousels.forEach((carousel) => {
     });
   };
 
+  const stop = () => {
+    if (timer) {
+      window.clearInterval(timer);
+      timer = undefined;
+    }
+  };
+
   const start = () => {
-    if (prefersReducedMotion) return;
-    if (timer) window.clearInterval(timer);
-    timer = window.setInterval(() => setActive(active + 1), CAROUSEL_INTERVAL_MS);
+    stop();
+    if (prefersReducedMotion()) return;
+
+    timer = window.setInterval(() => {
+      setActive(active + 1);
+    }, CAROUSEL_INTERVAL_MS);
   };
 
   prev.addEventListener('click', () => {
     setActive(active - 1);
     start();
   });
+
   next.addEventListener('click', () => {
     setActive(active + 1);
     start();
   });
+
   dots.forEach((dot) => {
     dot.addEventListener('click', () => {
       const idx = Number(dot.dataset.index);
-      if (!Number.isNaN(idx)) setActive(idx);
+      if (Number.isNaN(idx)) return;
+      setActive(idx);
       start();
     });
   });
-  carousel.addEventListener('mouseenter', () => {
-    if (timer) window.clearInterval(timer);
-  });
+
+  carousel.addEventListener('mouseenter', stop);
   carousel.addEventListener('mouseleave', start);
-  carousel.addEventListener('focusin', () => {
-    if (timer) window.clearInterval(timer);
+  carousel.addEventListener('focusin', stop);
+  carousel.addEventListener('focusout', (event) => {
+    if (!carousel.contains(event.relatedTarget as Node | null)) {
+      start();
+    }
   });
-  carousel.addEventListener('focusout', start);
+
+  carousel.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowLeft') {
+      event.preventDefault();
+      setActive(active - 1);
+      start();
+    } else if (event.key === 'ArrowRight') {
+      event.preventDefault();
+      setActive(active + 1);
+      start();
+    }
+  });
+
+  carousel.tabIndex = 0;
+
+  const tablistId = `showcase-tabs-${Math.random().toString(36).slice(2, 8)}`;
+  dots.forEach((dot, index) => {
+    dot.setAttribute('role', 'tab');
+    dot.setAttribute('aria-setsize', String(dots.length));
+    dot.setAttribute('aria-posinset', String(index + 1));
+    dot.setAttribute('id', `${tablistId}-tab-${index}`);
+    dot.tabIndex = index === active ? 0 : -1;
+    const controlsId = dot.dataset.controls ?? cards[index]?.id;
+    if (controlsId) {
+      dot.setAttribute('aria-controls', controlsId);
+    }
+
+    const panel = metaItems[index]?.id ? `${metaItems[index].id}` : '';
+    if (panel) {
+      dot.setAttribute('aria-describedby', panel);
+    }
+  });
+  carousel.setAttribute('role', 'region');
+  carousel.setAttribute('aria-label', 'Signature showcase carousel');
+  const controls = carousel.querySelector<HTMLElement>('.showcase-dots');
+  controls?.setAttribute('role', 'tablist');
+  controls?.setAttribute('aria-label', 'Showcase work items');
+  controls?.setAttribute('id', tablistId);
 
   setActive(0);
   start();
+
+  return { start, stop };
+};
+
+const carousels = document.querySelectorAll<HTMLElement>('[data-carousel]');
+carousels.forEach((carousel) => {
+  const controller = mountCarousel(carousel);
+  if (controller) {
+    carouselControllers.push(controller);
+  }
 });
+
+const syncCarouselMotion = () => {
+  carouselControllers.forEach((controller) => {
+    if (prefersReducedMotion()) {
+      controller.stop();
+      return;
+    }
+    controller.start();
+  });
+};
+
+reducedMotionQuery.addEventListener('change', syncCarouselMotion);
 
 /* ==========================================================================
    Brief form
@@ -291,8 +412,50 @@ carousels.forEach((carousel) => {
 
 const briefForm = document.querySelector<HTMLFormElement>('[data-brief-form]');
 const briefStatus = document.querySelector<HTMLElement>('[data-brief-status]');
+const getFormField = (id: string) => document.getElementById(id) as HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement | null;
+
+const setBriefStatus = (text: string, isError = false) => {
+  if (!briefStatus) return;
+  briefStatus.textContent = text;
+  briefStatus.classList.toggle('is-error', isError);
+};
+
+const setFieldErrorState = (fieldId: string, isError: boolean) => {
+  const field = getFormField(fieldId);
+  const fieldContainer = field?.closest('.form-field');
+  if (!field || !fieldContainer) return;
+
+  field.setAttribute('aria-invalid', isError ? 'true' : 'false');
+  fieldContainer.classList.toggle('is-invalid', isError);
+};
+
+const focusField = (fieldId: string) => {
+  const field = getFormField(fieldId);
+  if (!field) return;
+
+  field.focus();
+  field.scrollIntoView({ behavior: prefersReducedMotion() ? 'auto' : 'smooth', block: 'center' });
+};
+
+const isContactFieldUsable = (value: string) => {
+  const trimmed = value.trim();
+  if (!trimmed) return false;
+  if (trimmed.includes('@')) return true;
+
+  const digits = trimmed.replace(/[^0-9]/g, '');
+  return digits.length >= 6;
+};
+
+const resetFormStatus = () => {
+  if (!briefStatus) return;
+  briefStatus.textContent = '';
+  briefStatus.classList.remove('is-error');
+};
+
 briefForm?.addEventListener('submit', (event) => {
   event.preventDefault();
+  resetFormStatus();
+
   const formData = new FormData(briefForm);
   const name = String(formData.get('name') || '').trim();
   const brand = String(formData.get('brand') || '').trim();
@@ -302,10 +465,28 @@ briefForm?.addEventListener('submit', (event) => {
   const timeline = String(formData.get('timeline') || '').trim();
   const message = String(formData.get('message') || '').trim();
 
-  if (!name || !contact || !projectType) {
-    if (briefStatus) {
-      briefStatus.textContent = 'Please fill in your name, contact, and project type.';
-    }
+  const requiredFields = [
+    { id: 'name', value: name, error: 'Please provide your name.' },
+    { id: 'contact-method', value: contact, error: 'Please provide a valid email or phone number.' },
+    { id: 'project-type', value: projectType, error: 'Please choose a project type.' },
+    { id: 'budget', value: budget, error: 'Please choose a budget range.' },
+    { id: 'timeline', value: timeline, error: 'Please choose a timeline.' },
+  ];
+
+  requiredFields.forEach((field) => setFieldErrorState(field.id, false));
+
+  const invalid = requiredFields.find((field) => !field.value);
+  if (invalid) {
+    setFieldErrorState(invalid.id, true);
+    setBriefStatus(invalid.error, true);
+    focusField(invalid.id);
+    return;
+  }
+
+  if (!isContactFieldUsable(contact)) {
+    setFieldErrorState('contact-method', true);
+    setBriefStatus('Please provide a valid email or phone number so I can reply directly.', true);
+    focusField('contact-method');
     return;
   }
 
@@ -324,8 +505,12 @@ briefForm?.addEventListener('submit', (event) => {
 
   const recipient = briefForm.dataset.briefEmail || 'hello@visualatelier.studio';
   const mailto = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  if (briefStatus) {
-    briefStatus.textContent = 'Opening your email app with a structured project brief...';
+
+  setBriefStatus('Opening your email app with a structured project brief...');
+
+  try {
+    window.location.href = mailto;
+  } catch {
+    setBriefStatus('Unable to launch your email app. Please contact me directly.', true);
   }
-  window.location.href = mailto;
 });

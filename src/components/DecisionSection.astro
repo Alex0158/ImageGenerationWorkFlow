@@ -11,16 +11,16 @@ import { decisionNotes } from '@/data/conversion';
         A strong project starts when expectations are clear. These notes remove the common doubts before we talk about style.
       </p>
     </div>
-    <div class="decision-list">
+    <ol class="decision-list">
       {decisionNotes.map((item, index) => (
-        <article class="decision-item">
+        <li class="decision-item">
           <span>{String(index + 1).padStart(2, '0')}</span>
           <div>
             <h3>{item.question}</h3>
             <p>{item.answer}</p>
           </div>
-        </article>
+        </li>
       ))}
-    </div>
+    </ol>
   </div>
 </section>

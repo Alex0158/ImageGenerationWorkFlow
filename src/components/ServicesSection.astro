@@ -12,9 +12,9 @@ import { services } from '@/data/services';
       Choose the level of design support around the commercial moment: identity, launch campaign, or broader art direction.
     </p>
   </div>
-  <div class="services-grid">
+  <ul class="services-grid" aria-label="Service options">
     {services.map((service, index) => (
-      <article class={`service-card ${service.featured ? 'is-featured' : ''}`} data-reveal>
+      <li class={`service-card ${service.featured ? 'is-featured' : ''}`} data-reveal>
         <div class="service-card-head">
           <span>{String(index + 1).padStart(2, '0')}</span>
           <strong>{service.duration}</strong>
@@ -26,7 +26,7 @@ import { services } from '@/data/services';
           {service.deliverables.map((item) => <li>{item}</li>)}
         </ul>
         <a class="text-button" href="#contact">{service.cta}</a>
-      </article>
+      </li>
     ))}
-  </div>
+  </ul>
 </section>

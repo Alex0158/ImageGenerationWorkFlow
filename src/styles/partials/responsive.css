@@ -94,7 +94,7 @@
     background: rgba(244, 239, 231, .12);
     box-shadow: 0 18px 42px rgba(0, 0, 0, .34);
   }
-  .hero-preview-row span,
+  .hero-preview-row li,
   .hero-subcopy,
   .hero-note {
     color: rgba(244, 239, 231, .72);
@@ -153,7 +153,7 @@
     letter-spacing: .1em;
   }
   .hero-subcopy,
-  .hero-preview-row span {
+  .hero-preview-row li {
     color: rgba(244, 239, 231, .72);
   }
   .hero-subcopy { font-size: 16px; }
@@ -166,7 +166,7 @@
   }
   .hero-preview-row picture { width: 50px; height: 68px; }
   .hero-preview-row picture + picture { margin-left: -12px; }
-  .hero-preview-row span { max-width: 150px; margin-left: 8px; font-size: 9px; }
+  .hero-preview-row li:last-child { max-width: 150px; margin-left: 8px; font-size: 9px; }
 
   .hero-collage {
     position: relative;
@@ -190,8 +190,8 @@
   .hero-proof-card { right: 2%; bottom: 11%; width: min(236px, 56%); }
 
   .hero-assurance-row { display: flex; margin-top: 18px; }
-  .hero-assurance-row span { min-height: 30px; padding-inline: 10px; font-size: 9px; }
-  .hero-assurance-row span:nth-child(n+3) { display: none; }
+  .hero-assurance-row li { min-height: 30px; padding-inline: 10px; font-size: 9px; }
+  .hero-assurance-row li:nth-child(n+3) { display: none; }
 
   .proof-strip { grid-template-columns: 1fr; }
   .proof-item { border-right: 0; border-bottom: 1px solid var(--line); padding: 20px var(--outer); }

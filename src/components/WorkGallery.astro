@@ -20,9 +20,9 @@ const galleryWorks = featuredWorks.slice(0, 9);
     </div>
   </div>
 
-  <div class="work-grid" data-stagger>
+  <ul class="work-grid" data-stagger aria-label="Selected work examples">
     {galleryWorks.map((work) => (
-      <article class="work-card" data-reveal>
+      <li class="work-card" data-reveal>
         <div class="work-image">
           <WorkPicture work={work} sizes="(max-width: 680px) 92vw, (max-width: 1060px) 44vw, 30vw" />
         </div>
@@ -34,9 +34,9 @@ const galleryWorks = featuredWorks.slice(0, 9);
             <p class="work-outcome">{work.outcome}</p>
           </div>
         </div>
-      </article>
+      </li>
     ))}
-  </div>
+  </ul>
 
   <div class="work-cta-panel" data-reveal>
     <span>Seen enough to shape the direction?</span>

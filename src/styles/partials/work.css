@@ -25,6 +25,9 @@
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: clamp(18px, 2vw, 26px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 .work-card {
   grid-column: auto;

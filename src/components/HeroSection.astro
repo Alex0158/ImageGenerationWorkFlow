@@ -11,10 +11,20 @@ const heroClasses = ['is-main', 'is-side', 'is-small', 'is-strip'];
     <div class="hero-label">Independent graphic designer / Visual identity / Campaign systems</div>
     <h1 id="hero-title">Brand visuals with a sharper first impression.</h1>
     <p class="hero-catalog">Brand Identity / Posters / Menus / Social Campaigns / Launch Systems</p>
-    <div class="hero-preview-row" aria-label="Fast preview of selected work">
-      {heroWorks.map((work, i) => <WorkPicture work={work} sizes="110px" alt="" loading="eager" fetchpriority={i === 0 ? 'high' : 'auto'} />)}
-      <span>Selected commercial systems</span>
-    </div>
+    <ul class="hero-preview-row" aria-label="Fast preview of selected work">
+      {heroWorks.map((work, i) => (
+        <li>
+          <WorkPicture
+            work={work}
+            sizes="110px"
+            alt={work.title}
+            loading="eager"
+            fetchpriority={i === 0 ? 'high' : 'auto'}
+          />
+        </li>
+      ))}
+      <li>Selected commercial systems</li>
+    </ul>
     <p class="hero-subcopy">
       I design identities, posters, menus, social assets, and launch systems so your brand feels clear, cohesive, and ready to show up.
     </p>
@@ -23,9 +33,9 @@ const heroClasses = ['is-main', 'is-side', 'is-small', 'is-strip'];
       <a class="text-button" href="#showcase">{ctaLabels.secondary}</a>
       <p class="hero-note">For founders and brands that need a stronger visual system before launch, promotion, or repositioning.</p>
     </div>
-    <div class="hero-assurance-row" aria-label="Project assurance">
-      {heroAssurances.map((item) => <span>{item}</span>)}
-    </div>
+    <ul class="hero-assurance-row" aria-label="Project assurance">
+      {heroAssurances.map((item) => <li>{item}</li>)}
+    </ul>
   </div>
 
   <div class="hero-collage" aria-label="Selected design work collage" data-reveal>

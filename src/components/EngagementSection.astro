@@ -12,9 +12,9 @@ import { engagementOptions } from '@/data/conversion';
       These are not rigid packages. They are clear starting points with budget guides, so the first conversation can move quickly from vague idea to useful scope.
     </p>
   </div>
-  <div class="engagement-grid">
+  <ul class="engagement-grid" aria-label="Engagement scope options">
     {engagementOptions.map((option, index) => (
-      <article class={`engagement-card ${option.recommended ? 'is-recommended' : ''}`} data-reveal>
+      <li class={`engagement-card ${option.recommended ? 'is-recommended' : ''}`} data-reveal>
         <div class="engagement-card-top">
           <span>{String(index + 1).padStart(2, '0')} / {option.label}</span>
           <strong>{option.timeline}</strong>
@@ -27,7 +27,7 @@ import { engagementOptions } from '@/data/conversion';
           {option.includes.map((item) => <li>{item}</li>)}
         </ul>
         <a class="button" href="#contact">{option.cta}</a>
-      </article>
+      </li>
     ))}
-  </div>
+  </ul>
 </section>
