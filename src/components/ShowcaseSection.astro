@@ -29,7 +29,7 @@ const getInitialShowcaseSlot = (index: number) => {
     </p>
   </div>
 
-  <div class="showcase-shell" data-carousel>
+  <div class="showcase-shell" data-carousel role="region" aria-label="Signature showcase carousel">
     <div class="showcase-controls" aria-label="Showcase controls">
       <button class="showcase-control" type="button" data-carousel-prev aria-label="Previous work">Prev</button>
       <div class="showcase-counter" aria-live="polite"><span data-carousel-current>01</span> / {showcaseWorks.length.toString().padStart(2, '0')}</div>
@@ -78,17 +78,20 @@ const getInitialShowcaseSlot = (index: number) => {
         <a class="button is-light" href="#contact">{ctaLabels.primary}</a>
         <a class="text-button" href="#work">See selected work</a>
       </div>
-      <div class="showcase-dots" aria-label="Choose showcase work">
+      <div class="showcase-dots" id="showcase-tabs" role="tablist" aria-label="Showcase work items">
         {showcaseWorks.map((work, index) => (
           <button
             type="button"
+            role="tab"
             data-carousel-dot
             data-index={index}
             data-controls={getShowcaseIds(work.slug, index).cardId}
             data-describedby={getShowcaseIds(work.slug, index).metaId}
             id={getShowcaseIds(work.slug, index).dotId}
             class:list={{ 'is-active': index === 0 }}
+            aria-controls={getShowcaseIds(work.slug, index).cardId}
             aria-current={index === 0 ? 'true' : 'false'}
+            aria-describedby={getShowcaseIds(work.slug, index).metaId}
             aria-selected={index === 0 ? 'true' : 'false'}
             aria-label={`Show ${work.title}`}
             tabindex={index === 0 ? '0' : '-1'}

@@ -393,12 +393,15 @@ const mountCarousel = (carousel: HTMLElement) => {
 
   carousel.tabIndex = 0;
 
-  const tablistId = `showcase-tabs-${Math.random().toString(36).slice(2, 8)}`;
+  const controls = carousel.querySelector<HTMLElement>('.showcase-dots');
+  const tablistId = controls?.id || `showcase-tabs-${Math.random().toString(36).slice(2, 8)}`;
   dots.forEach((dot, index) => {
     dot.setAttribute('role', 'tab');
     dot.setAttribute('aria-setsize', String(dots.length));
     dot.setAttribute('aria-posinset', String(index + 1));
-    dot.setAttribute('id', `${tablistId}-tab-${index}`);
+    if (!dot.id) {
+      dot.setAttribute('id', `${tablistId}-tab-${index}`);
+    }
     dot.tabIndex = index === active ? 0 : -1;
     const controlsId = dot.dataset.controls ?? cards[index]?.id;
     if (controlsId) {
@@ -412,10 +415,11 @@ const mountCarousel = (carousel: HTMLElement) => {
   });
   carousel.setAttribute('role', 'region');
   carousel.setAttribute('aria-label', 'Signature showcase carousel');
-  const controls = carousel.querySelector<HTMLElement>('.showcase-dots');
   controls?.setAttribute('role', 'tablist');
   controls?.setAttribute('aria-label', 'Showcase work items');
-  controls?.setAttribute('id', tablistId);
+  if (controls && !controls.id) {
+    controls.setAttribute('id', tablistId);
+  }
 
   setActive(0);
   start();
