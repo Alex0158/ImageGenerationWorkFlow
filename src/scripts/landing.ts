@@ -1,9 +1,19 @@
+/* ==========================================================================
+   Constants
+   ========================================================================== */
+
 const SCROLL_MARGIN_FALLBACK = 84;
 const REVEAL_THRESHOLD = 0.12;
 const CAROUSEL_INTERVAL_MS = 4800;
+const COUNTER_DURATION_MS = 1600;
+const STAGGER_DELAY_MS = 120;
+const TILT_MAX_DEG = 6;
 
-const revealItems = document.querySelectorAll('[data-reveal]');
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ==========================================================================
+   Hash scroll correction
+   ========================================================================== */
 
 const correctHashScroll = (behavior: ScrollBehavior = 'auto') => {
   const rawHash = window.location.hash.slice(1);
@@ -31,23 +41,174 @@ window.addEventListener('load', () => scheduleHashCorrection());
 document.fonts?.ready.then(() => scheduleHashCorrection()).catch(() => undefined);
 window.addEventListener('hashchange', () => scheduleHashCorrection('smooth'));
 
+/* ==========================================================================
+   Scroll reveal (with stagger support)
+   ========================================================================== */
+
+const revealItems = document.querySelectorAll<HTMLElement>('[data-reveal]');
+const staggerContainers = document.querySelectorAll<HTMLElement>('[data-stagger]');
+const staggerChildren = new Set<Element>();
+
+staggerContainers.forEach((container) => {
+  container.querySelectorAll('[data-reveal]').forEach((child) => staggerChildren.add(child));
+});
+
 if (prefersReducedMotion) {
   revealItems.forEach((item) => item.classList.add('is-visible'));
 } else {
-  const observer = new IntersectionObserver(
+  const revealObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add('is-visible');
-          observer.unobserve(entry.target);
+          revealObserver.unobserve(entry.target);
         }
       });
     },
     { threshold: REVEAL_THRESHOLD },
   );
 
-  revealItems.forEach((item) => observer.observe(item));
+  revealItems.forEach((item) => {
+    if (!staggerChildren.has(item)) revealObserver.observe(item);
+  });
+
+  const staggerObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const children = [...entry.target.querySelectorAll<HTMLElement>('[data-reveal]')];
+        children.forEach((child, i) => {
+          child.style.transitionDelay = `${i * STAGGER_DELAY_MS}ms`;
+          requestAnimationFrame(() => child.classList.add('is-visible'));
+        });
+        staggerObserver.unobserve(entry.target);
+      });
+    },
+    { threshold: 0.08 },
+  );
+
+  staggerContainers.forEach((container) => staggerObserver.observe(container));
 }
+
+/* ==========================================================================
+   Proof strip counter animation
+   ========================================================================== */
+
+const proofStrip = document.querySelector('.proof-strip');
+if (proofStrip) {
+  const counters = [...proofStrip.querySelectorAll<HTMLElement>('[data-count-target]')];
+
+  const animateCounter = (el: HTMLElement) => {
+    const target = el.dataset.countTarget ?? '';
+    const numericMatch = target.match(/^(\d+)$/);
+
+    if (!numericMatch) {
+      el.style.opacity = '0';
+      requestAnimationFrame(() => {
+        el.style.transition = `opacity .8s var(--ease)`;
+        el.style.opacity = '1';
+        el.textContent = target;
+      });
+      return;
+    }
+
+    const end = Number.parseInt(numericMatch[1], 10);
+    const startTime = performance.now();
+    el.textContent = '0';
+
+    const step = (now: number) => {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / COUNTER_DURATION_MS, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = String(Math.round(eased * end));
+
+      if (progress < 1) requestAnimationFrame(step);
+    };
+
+    requestAnimationFrame(step);
+  };
+
+  if (prefersReducedMotion) {
+    counters.forEach((el) => { el.textContent = el.dataset.countTarget ?? ''; });
+  } else {
+    const counterObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          counters.forEach((el, i) => {
+            setTimeout(() => animateCounter(el), i * STAGGER_DELAY_MS);
+          });
+          counterObserver.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.3 },
+    );
+
+    counterObserver.observe(proofStrip);
+  }
+}
+
+/* ==========================================================================
+   Work card 3D tilt effect
+   ========================================================================== */
+
+if (!prefersReducedMotion) {
+  const workCards = document.querySelectorAll<HTMLElement>('.work-card');
+
+  workCards.forEach((card) => {
+    const image = card.querySelector<HTMLElement>('.work-image');
+    if (!image) return;
+
+    card.addEventListener('mousemove', (e: MouseEvent) => {
+      const rect = image.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width;
+      const y = (e.clientY - rect.top) / rect.height;
+      const rotateX = (0.5 - y) * TILT_MAX_DEG;
+      const rotateY = (x - 0.5) * TILT_MAX_DEG;
+
+      image.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+    });
+
+    card.addEventListener('mouseleave', () => {
+      image.style.transform = '';
+    });
+  });
+}
+
+/* ==========================================================================
+   Scroll progress bar
+   ========================================================================== */
+
+if (!prefersReducedMotion) {
+  const progressBar = document.createElement('div');
+  progressBar.className = 'scroll-progress';
+  progressBar.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(progressBar);
+
+  const updateProgress = () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = docHeight > 0 ? scrollTop / docHeight : 0;
+    progressBar.style.transform = `scaleX(${progress})`;
+  };
+
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        updateProgress();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }, { passive: true });
+
+  updateProgress();
+}
+
+/* ==========================================================================
+   Carousel
+   ========================================================================== */
 
 const carousels = document.querySelectorAll<HTMLElement>('[data-carousel]');
 carousels.forEach((carousel) => {
@@ -123,6 +284,10 @@ carousels.forEach((carousel) => {
   setActive(0);
   start();
 });
+
+/* ==========================================================================
+   Brief form
+   ========================================================================== */
 
 const briefForm = document.querySelector<HTMLFormElement>('[data-brief-form]');
 const briefStatus = document.querySelector<HTMLElement>('[data-brief-status]');

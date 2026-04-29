@@ -39,6 +39,8 @@
   border: 1px solid rgba(20, 17, 15, .16);
   border-radius: var(--radius);
   background: var(--paper-deep);
+  transition: transform .45s var(--ease);
+  will-change: transform;
 }
 .work-image::after {
   content: 'Commercial visual system';
