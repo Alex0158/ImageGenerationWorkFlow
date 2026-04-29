@@ -271,6 +271,8 @@
   border-radius: 8px;
   background: var(--paper-deep);
   box-shadow: 0 34px 86px rgba(0, 0, 0, .42);
+  transform-origin: bottom center;
+  will-change: transform;
 }
 .showcase-card-inner::before {
   content: '';
@@ -303,6 +305,12 @@
   border: 1px solid rgba(20, 17, 15, .18);
   color: var(--ink);
   backdrop-filter: blur(12px);
+}
+.showcase-card.is-settling[data-slot='active'] .showcase-card-inner {
+  animation: activeWorkSettle 720ms var(--ease) both;
+}
+.showcase-card.is-settling[data-slot='active'] .showcase-card-label {
+  animation: activeWorkLabelSettle 620ms var(--ease) 70ms both;
 }
 .showcase-card-label span {
   color: var(--clay);
@@ -477,6 +485,15 @@
 @keyframes floatSide { to { transform: translate3d(-8px, 8px, 0) rotate(2deg); } }
 @keyframes floatSmall { to { transform: translate3d(7px, -8px, 0) rotate(3deg); } }
 @keyframes floatStrip { to { transform: translate3d(-6px, -7px, 0) rotate(-3deg); } }
+@keyframes activeWorkSettle {
+  0% { transform: scale(.965) rotateX(2.8deg); }
+  52% { transform: scale(1.018) rotateX(-.9deg); }
+  100% { transform: scale(1) rotateX(0deg); }
+}
+@keyframes activeWorkLabelSettle {
+  0% { opacity: .68; transform: translateY(8px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
 
 .fit-section {
   padding-top: 0;

@@ -38,7 +38,7 @@ const heroClasses = ['is-main', 'is-side', 'is-small', 'is-strip'];
     </ul>
   </div>
 
-  <div class="hero-collage" aria-label="Selected design work collage" data-reveal>
+  <div class="hero-collage" aria-label="Selected design work collage" data-reveal data-proof-drop>
     {heroWorks.map((work, index) => (
       <figure class={`collage-card ${heroClasses[index]}`}>
         <WorkPicture work={work} sizes="(max-width: 680px) 62vw, 34vw" loading="eager" fetchpriority={index === 0 ? 'high' : 'auto'} />

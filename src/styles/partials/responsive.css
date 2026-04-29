@@ -261,7 +261,16 @@
     transition-duration: .01ms !important;
   }
   [data-reveal] { opacity: 1; transform: none; }
+  .is-enhanced .hero-collage[data-proof-drop] .collage-card picture,
+  .is-enhanced .hero-collage[data-proof-drop] .collage-caption,
+  .is-enhanced .hero-collage[data-proof-drop] .hero-proof-card {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
   .showcase-card,
+  .showcase-card-inner,
+  .showcase-card-label,
   .showcase-meta-item,
   .showcase-control,
   .showcase-dots button {

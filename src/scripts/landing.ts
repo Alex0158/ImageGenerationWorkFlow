@@ -8,9 +8,12 @@ const CAROUSEL_INTERVAL_MS = 4800;
 const COUNTER_DURATION_MS = 1600;
 const STAGGER_DELAY_MS = 120;
 const TILT_MAX_DEG = 6;
+const ACTIVE_CARD_SETTLE_MS = 720;
 
 const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 const prefersReducedMotion = () => reducedMotionQuery.matches;
+
+document.documentElement.classList.add('is-enhanced');
 
 /**
  * Get fallback scroll-margin-top in case CSS variable is unavailable.
@@ -115,6 +118,23 @@ if (prefersReducedMotion()) {
     if (!staggerChildren.has(item)) revealObserver.observe(item);
   });
   staggerContainers.forEach((container) => staggerObserver.observe(container));
+}
+
+/* ==========================================================================
+   Hero proof drop-in
+   ========================================================================== */
+
+const proofDrop = document.querySelector<HTMLElement>('[data-proof-drop]');
+if (proofDrop) {
+  const revealProofDrop = () => proofDrop.classList.add('is-proof-ready');
+
+  if (prefersReducedMotion()) {
+    revealProofDrop();
+  } else {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(revealProofDrop);
+    });
+  }
 }
 
 /* ==========================================================================
@@ -258,6 +278,21 @@ const mountCarousel = (carousel: HTMLElement) => {
 
   let active = 0;
   let timer: ReturnType<typeof setInterval> | undefined;
+  let settleTimer: ReturnType<typeof setTimeout> | undefined;
+
+  const settleActiveCard = () => {
+    cards.forEach((card) => card.classList.remove('is-settling'));
+    if (prefersReducedMotion()) return;
+
+    const activeCard = cards[active];
+    if (!activeCard) return;
+
+    activeCard.classList.add('is-settling');
+    if (settleTimer) window.clearTimeout(settleTimer);
+    settleTimer = window.setTimeout(() => {
+      activeCard.classList.remove('is-settling');
+    }, ACTIVE_CARD_SETTLE_MS);
+  };
 
   const setActive = (nextIndex: number) => {
     const total = cards.length;
@@ -296,6 +331,8 @@ const mountCarousel = (carousel: HTMLElement) => {
     metaItems.forEach((item, index) => {
       item.classList.toggle('is-active', index === active);
     });
+
+    settleActiveCard();
   };
 
   const stop = () => {
