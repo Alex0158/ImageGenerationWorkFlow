@@ -54,8 +54,20 @@
   .manifesto-quote { position: static; }
   .decision-heading { position: static; }
   .process-grid { grid-template-columns: repeat(2, 1fr); }
+
+  /* Reset 12-column work grid to simple 2-col */
   .work-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .work-card, .work-card:nth-child(n) { grid-column: auto; transform: none; }
+  .work-card,
+  .work-card.is-featured,
+  .work-card.is-wide,
+  .work-card:nth-child(n) { grid-column: auto; grid-row: auto; transform: none; }
+  .work-card.is-featured .work-image,
+  .work-card.is-wide .work-image { aspect-ratio: 4 / 5.15; }
+
+  /* Reset engagement unequal spans */
+  .engagement-card.is-recommended,
+  .engagement-card.is-recommended + .engagement-card,
+  .engagement-card.is-recommended + .engagement-card + .engagement-card { grid-column: auto; }
 }
 
 /* ==========================================================================
@@ -67,7 +79,7 @@
   .hero {
     margin: 18px var(--outer) 0;
     min-height: calc(100vh - 106px);
-    padding: 46px 34px 0;
+    padding: 46px 34px clamp(28px, 4vw, 44px);
     border-radius: 30px;
     background:
       radial-gradient(circle at 78% 26%, rgba(215, 161, 93, .23), transparent 20rem),
@@ -307,7 +319,38 @@
   .brief-form-head strong { max-width: none; text-align: left; }
   .form-row { grid-template-columns: 1fr; }
   .site-footer { grid-template-columns: 1fr; }
+  /* Mobile CTA bar - hidden by default, shown via JS or as needed */
   .mobile-cta { display: none; }
+
+  /* Mobile hardening for editorial layout */
+  .hero-collage { min-height: clamp(330px, 88vw, 420px); }
+  .collage-card.is-main { width: 76%; right: 0; top: 0; z-index: 4; }
+  .collage-card.is-side { width: 34%; left: 0; top: 17%; z-index: 5; }
+  .collage-card.is-small { width: 31%; right: 0; bottom: 0; z-index: 5; }
+  .collage-card.is-strip { width: 28%; left: 20%; bottom: 2%; z-index: 4; }
+  .hero-proof-card { top: auto; bottom: 4%; width: 168px; max-width: 52%; }
+  .proof-board { padding: 76px var(--outer); }
+  .proof-board-heading { grid-template-columns: 1fr; }
+  .showcase-control { min-height: 46px; }
+  .showcase-stage { height: clamp(340px, 92vw, 410px); }
+  .showcase-card { width: min(62vw, 244px); }
+  .showcase-proof-list { grid-template-columns: 1fr; }
+  .showcase-dots button { width: 44px; height: 44px; }
+
+  /* Work grid: single column on mobile */
+  .work-grid { display: grid; grid-template-columns: 1fr; }
+  .work-card,
+  .work-card.is-featured,
+  .work-card.is-wide { grid-column: auto; grid-row: auto; }
+  .work-card.is-featured .work-image,
+  .work-card.is-wide .work-image { aspect-ratio: 4 / 5.25; }
+  .work-card.is-tall { transform: none; }
+  .work-moment { opacity: 1; transform: none; }
+
+  /* Engagement: single column */
+  .engagement-card.is-recommended,
+  .engagement-card.is-recommended + .engagement-card,
+  .engagement-card.is-recommended + .engagement-card + .engagement-card { grid-column: auto; }
 }
 
 /* ==========================================================================
@@ -337,27 +380,4 @@
   .showcase-dots button {
     transition: none !important;
   }
-}
-
-/* Upgrade pass: mobile hardening for editorial layout. */
-@media (max-width: 680px) {
-  .hero-collage { min-height: clamp(330px, 88vw, 420px); }
-  .collage-card.is-main { width: 76%; right: 0; top: 0; z-index: 4; }
-  .collage-card.is-side { width: 34%; left: 0; top: 17%; z-index: 5; }
-  .collage-card.is-small { width: 31%; right: 0; bottom: 0; z-index: 5; }
-  .collage-card.is-strip { width: 28%; left: 20%; bottom: 2%; z-index: 4; }
-  .hero-proof-card { top: auto; bottom: 4%; width: 168px; max-width: 52%; }
-  .proof-board { padding: 76px var(--outer); }
-  .proof-board-heading { grid-template-columns: 1fr; }
-  .showcase-control { min-height: 46px; }
-  .showcase-stage { height: clamp(340px, 92vw, 410px); }
-  .showcase-card { width: min(62vw, 244px); }
-  .showcase-proof-list { grid-template-columns: 1fr; }
-  .showcase-dots button { width: 44px; height: 44px; }
-  .work-grid { display: grid; grid-template-columns: 1fr; }
-  .work-card,
-  .work-card.is-featured,
-  .work-card.is-wide { grid-column: auto; }
-  .work-card.is-tall { transform: none; }
-  .work-moment { opacity: 1; transform: none; }
 }
