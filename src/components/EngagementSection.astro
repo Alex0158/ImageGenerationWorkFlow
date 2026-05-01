@@ -26,7 +26,7 @@ import { engagementOptions } from '@/data/conversion';
         <ul>
           {option.includes.map((item) => <li>{item}</li>)}
         </ul>
-        <a class="button" href="#contact">{option.cta}</a>
+        <a class="button" href="#contact" data-brief-intent={option.title} data-brief-project-type={option.projectType} data-brief-budget={option.budgetGuide} data-brief-source="Ways to Start">{option.cta}</a>
       </li>
     ))}
   </ul>

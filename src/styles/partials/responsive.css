@@ -338,3 +338,26 @@
     transition: none !important;
   }
 }
+
+/* Upgrade pass: mobile hardening for editorial layout. */
+@media (max-width: 680px) {
+  .hero-collage { min-height: clamp(330px, 88vw, 420px); }
+  .collage-card.is-main { width: 76%; right: 0; top: 0; z-index: 4; }
+  .collage-card.is-side { width: 34%; left: 0; top: 17%; z-index: 5; }
+  .collage-card.is-small { width: 31%; right: 0; bottom: 0; z-index: 5; }
+  .collage-card.is-strip { width: 28%; left: 20%; bottom: 2%; z-index: 4; }
+  .hero-proof-card { top: auto; bottom: 4%; width: 168px; max-width: 52%; }
+  .proof-board { padding: 76px var(--outer); }
+  .proof-board-heading { grid-template-columns: 1fr; }
+  .showcase-control { min-height: 46px; }
+  .showcase-stage { height: clamp(340px, 92vw, 410px); }
+  .showcase-card { width: min(62vw, 244px); }
+  .showcase-proof-list { grid-template-columns: 1fr; }
+  .showcase-dots button { width: 44px; height: 44px; }
+  .work-grid { display: grid; grid-template-columns: 1fr; }
+  .work-card,
+  .work-card.is-featured,
+  .work-card.is-wide { grid-column: auto; }
+  .work-card.is-tall { transform: none; }
+  .work-moment { opacity: 1; transform: none; }
+}

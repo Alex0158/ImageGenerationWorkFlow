@@ -3,14 +3,16 @@ import WorkPicture from '@/components/WorkPicture.astro';
 import { heroWorks } from '@/data/works';
 import { ctaLabels, heroAssurances } from '@/data/site';
 
-const heroClasses = ['is-main', 'is-side', 'is-small', 'is-strip'];
+const heroMainWork = heroWorks[3] ?? heroWorks[0];
+const heroSupportWorks = heroWorks.filter((work) => work.slug !== heroMainWork.slug).slice(0, 3);
+const heroClasses = ['is-side', 'is-small', 'is-strip'];
 ---
 
 <section class="hero" aria-labelledby="hero-title">
   <div class="hero-copy" data-reveal>
-    <div class="hero-label">Independent graphic designer / Visual identity / Campaign systems</div>
-    <h1 id="hero-title">Brand visuals with a sharper first impression.</h1>
-    <p class="hero-catalog">Brand Identity / Posters / Menus / Social Campaigns / Launch Systems</p>
+    <div class="hero-label">Independent graphic designer / Campaign systems / Hospitality visuals</div>
+    <h1 id="hero-title">Launch-ready visual systems for hospitality and lifestyle brands.</h1>
+    <p class="hero-catalog">Campaign Kits / Menus / Posters / Identity Refreshes / Social Rollouts</p>
     <ul class="hero-preview-row" aria-label="Fast preview of selected work">
       {heroWorks.map((work, i) => (
         <li>
@@ -26,10 +28,10 @@ const heroClasses = ['is-main', 'is-side', 'is-small', 'is-strip'];
       <li>Selected commercial systems</li>
     </ul>
     <p class="hero-subcopy">
-      I design identities, posters, menus, social assets, and launch systems so your brand feels clear, cohesive, and ready to show up.
+      I shape the key visual, menu hierarchy, poster system, and social assets so your launch looks considered before anyone asks the price.
     </p>
     <div class="hero-actions">
-      <a class="button is-dark" href="#contact">{ctaLabels.primary}</a>
+      <a class="button is-dark" href="#contact" data-brief-intent="Campaign Kit" data-brief-project-type="Campaign Visual" data-brief-budget="HKD 15,000 - 35,000" data-brief-source="Hero primary CTA">{ctaLabels.primary}</a>
       <a class="text-button" href="#showcase">{ctaLabels.secondary}</a>
       <p class="hero-note">For founders and brands that need a stronger visual system before launch, promotion, or repositioning.</p>
     </div>
@@ -39,17 +41,20 @@ const heroClasses = ['is-main', 'is-side', 'is-small', 'is-strip'];
   </div>
 
   <div class="hero-collage" aria-label="Selected design work collage" data-reveal data-proof-drop>
-    {heroWorks.map((work, index) => (
+    <figure class="collage-card is-main">
+      <WorkPicture work={heroMainWork} sizes="(max-width: 680px) 76vw, 42vw" loading="eager" fetchpriority="high" />
+    </figure>
+    {heroSupportWorks.map((work, index) => (
       <figure class={`collage-card ${heroClasses[index]}`}>
-        <WorkPicture work={work} sizes="(max-width: 680px) 62vw, 34vw" loading="eager" fetchpriority={index === 0 ? 'high' : 'auto'} />
+        <WorkPicture work={work} sizes="(max-width: 680px) 42vw, 18vw" loading="eager" fetchpriority="auto" />
       </figure>
     ))}
     <div class="collage-caption">
-      Curated commercial graphics across hospitality, launch campaigns, editorial posters and visual systems.
+      Main artifact: chef-led launch campaign. Supporting slips show menu hierarchy, opening posters, and social-ready crops.
     </div>
     <div class="hero-proof-card">
-      <span>01</span>
-      <strong>Make the first impression feel designed, not assembled.</strong>
+      <span>Opening-ready</span>
+      <strong>One visual direction, prepared for posters, menus, and social rollout.</strong>
     </div>
   </div>
 </section>

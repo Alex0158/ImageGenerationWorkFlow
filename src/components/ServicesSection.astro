@@ -25,7 +25,7 @@ import { services } from '@/data/services';
         <ul>
           {service.deliverables.map((item) => <li>{item}</li>)}
         </ul>
-        <a class="text-button" href="#contact">{service.cta}</a>
+        <a class="text-button" href="#contact" data-brief-intent={service.intent} data-brief-project-type={service.projectType} data-brief-budget={service.budgetGuide} data-brief-source="Services">{service.cta}</a>
       </li>
     ))}
   </ul>

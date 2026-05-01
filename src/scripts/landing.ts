@@ -317,7 +317,7 @@ const mountCarousel = (carousel: HTMLElement) => {
       }
 
       card.dataset.slot = slot;
-      card.setAttribute('aria-hidden', slot === 'hidden' ? 'true' : 'false');
+      card.setAttribute('aria-hidden', slot === 'active' ? 'false' : 'true');
     });
 
     dots.forEach((dot, index) => {
@@ -327,6 +327,19 @@ const mountCarousel = (carousel: HTMLElement) => {
       dot.setAttribute('aria-selected', isActive ? 'true' : 'false');
       dot.tabIndex = isActive ? 0 : -1;
     });
+
+    const activeDot = dots[active];
+    const dotScroller = activeDot?.parentElement;
+    if (activeDot && dotScroller) {
+      const scrollerRect = dotScroller.getBoundingClientRect();
+      const dotRect = activeDot.getBoundingClientRect();
+      if (dotRect.left < scrollerRect.left || dotRect.right > scrollerRect.right) {
+        dotScroller.scrollTo({
+          left: activeDot.offsetLeft - dotScroller.clientWidth / 2 + activeDot.clientWidth / 2,
+          behavior: prefersReducedMotion() ? 'auto' : 'smooth',
+        });
+      }
+    }
 
     metaItems.forEach((item, index) => {
       item.classList.toggle('is-active', index === active);
@@ -372,6 +385,10 @@ const mountCarousel = (carousel: HTMLElement) => {
 
   carousel.addEventListener('mouseenter', stop);
   carousel.addEventListener('mouseleave', start);
+  carousel.addEventListener('pointerdown', stop);
+  carousel.addEventListener('pointerup', () => {
+    window.setTimeout(start, CAROUSEL_INTERVAL_MS);
+  });
   carousel.addEventListener('focusin', stop);
   carousel.addEventListener('focusout', (event) => {
     if (!carousel.contains(event.relatedTarget as Node | null)) {
@@ -390,8 +407,6 @@ const mountCarousel = (carousel: HTMLElement) => {
       start();
     }
   });
-
-  carousel.tabIndex = 0;
 
   const controls = carousel.querySelector<HTMLElement>('.showcase-dots');
   const tablistId = controls?.id || `showcase-tabs-${Math.random().toString(36).slice(2, 8)}`;
@@ -453,6 +468,14 @@ reducedMotionQuery.addEventListener('change', syncCarouselMotion);
 
 const briefForm = document.querySelector<HTMLFormElement>('[data-brief-form]');
 const briefStatus = document.querySelector<HTMLElement>('[data-brief-status]');
+const briefIntentLinks = document.querySelectorAll<HTMLElement>('[data-brief-intent]');
+const selectedBrief = document.querySelector<HTMLElement>('[data-brief-selected]');
+const selectedBriefTitle = document.querySelector<HTMLElement>('[data-brief-selected-title]');
+const selectedBriefMeta = document.querySelector<HTMLElement>('[data-brief-selected-meta]');
+const selectedScopeField = document.querySelector<HTMLInputElement>('[data-selected-scope]');
+const briefSourceField = document.querySelector<HTMLInputElement>('[data-brief-source]');
+const whatsappFallback = document.querySelector<HTMLAnchorElement>('[data-brief-whatsapp]');
+const copyBriefButton = document.querySelector<HTMLButtonElement>('[data-brief-copy]');
 const getFormField = (id: string) => document.getElementById(id) as HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement | null;
 
 const setBriefStatus = (text: string, isError = false) => {
@@ -493,6 +516,71 @@ const resetFormStatus = () => {
   briefStatus.classList.remove('is-error');
 };
 
+const setSelectValueIfOptionExists = (fieldId: string, value: string) => {
+  const field = getFormField(fieldId);
+  if (!(field instanceof HTMLSelectElement) || !value) return;
+  const option = [...field.options].find((item) => item.value === value || item.textContent === value);
+  if (option) field.value = option.value;
+};
+
+const applyBriefIntent = (trigger: HTMLElement) => {
+  const intent = trigger.dataset.briefIntent ?? '';
+  const projectType = trigger.dataset.briefProjectType ?? '';
+  const budget = trigger.dataset.briefBudget ?? '';
+  const source = trigger.dataset.briefSource ?? trigger.textContent?.trim() ?? '';
+  if (selectedScopeField) selectedScopeField.value = intent;
+  if (briefSourceField) briefSourceField.value = source;
+  setSelectValueIfOptionExists('project-type', projectType);
+  setSelectValueIfOptionExists('budget', budget);
+  if (selectedBrief && selectedBriefTitle && selectedBriefMeta && intent) {
+    selectedBrief.hidden = false;
+    selectedBriefTitle.textContent = intent;
+    selectedBriefMeta.textContent = [budget, projectType].filter(Boolean).join(' / ');
+  }
+};
+
+briefIntentLinks.forEach((link) => {
+  link.addEventListener('click', () => applyBriefIntent(link));
+});
+
+const buildBriefText = (formData: FormData) => [
+  `Name: ${String(formData.get('name') || '').trim()}`,
+  `Brand / Project: ${String(formData.get('brand') || '').trim()}`,
+  `Contact: ${String(formData.get('contact') || '').trim()}`,
+  `Selected scope: ${String(formData.get('selected_scope') || '').trim() || 'Not selected'}`,
+  `CTA source: ${String(formData.get('brief_source') || '').trim() || 'Direct form'}`,
+  `Project type: ${String(formData.get('project_type') || '').trim()}`,
+  `Budget range: ${String(formData.get('budget') || '').trim()}`,
+  `Timeline: ${String(formData.get('timeline') || '').trim()}`,
+  '',
+  'Project notes:',
+  String(formData.get('message') || '').trim() || 'No extra notes yet.',
+].join('\n');
+
+const updateBriefFallbacks = (briefText: string, subject: string) => {
+  const recipient = briefForm?.dataset.briefEmail || 'hello@visualatelier.studio';
+  if (whatsappFallback) {
+    const baseUrl = whatsappFallback.href.split('?')[0];
+    whatsappFallback.href = `${baseUrl}?text=${encodeURIComponent(`Project brief for ${recipient}\n\n${briefText}`)}`;
+  }
+  return `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(briefText)}`;
+};
+
+copyBriefButton?.addEventListener('click', async () => {
+  if (!briefForm) return;
+  const formData = new FormData(briefForm);
+  const brand = String(formData.get('brand') || '').trim();
+  const subject = `Project brief${brand ? `: ${brand}` : ''}`;
+  const briefText = buildBriefText(formData);
+  updateBriefFallbacks(briefText, subject);
+  try {
+    await navigator.clipboard.writeText(briefText);
+    setBriefStatus('Brief text copied. You can paste it into email or WhatsApp.');
+  } catch {
+    setBriefStatus('Copy failed. You can still use the WhatsApp or email fallback links.', true);
+  }
+});
+
 briefForm?.addEventListener('submit', (event) => {
   event.preventDefault();
   resetFormStatus();
@@ -504,7 +592,6 @@ briefForm?.addEventListener('submit', (event) => {
   const projectType = String(formData.get('project_type') || '').trim();
   const budget = String(formData.get('budget') || '').trim();
   const timeline = String(formData.get('timeline') || '').trim();
-  const message = String(formData.get('message') || '').trim();
 
   const requiredFields = [
     { id: 'name', value: name, error: 'Please provide your name.' },
@@ -532,22 +619,10 @@ briefForm?.addEventListener('submit', (event) => {
   }
 
   const subject = `Project brief${brand ? `: ${brand}` : ''}`;
-  const body = [
-    `Name: ${name}`,
-    `Brand / Project: ${brand}`,
-    `Contact: ${contact}`,
-    `Project type: ${projectType}`,
-    `Budget range: ${budget}`,
-    `Timeline: ${timeline}`,
-    '',
-    'Project notes:',
-    message,
-  ].join('\n');
+  const body = buildBriefText(formData);
+  const mailto = updateBriefFallbacks(body, subject);
 
-  const recipient = briefForm.dataset.briefEmail || 'hello@visualatelier.studio';
-  const mailto = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-
-  setBriefStatus('Opening your email app with a structured project brief...');
+  setBriefStatus('Opening your email app with a structured project brief. If it does not open, use WhatsApp or copy the brief below.');
 
   try {
     window.location.href = mailto;

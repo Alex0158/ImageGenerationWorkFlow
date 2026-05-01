@@ -939,3 +939,66 @@
   opacity: 1;
   transform: none;
 }
+
+/* Upgrade pass: proof board and curated showcase evidence. */
+.proof-board {
+  padding: clamp(54px, 7vw, 92px) var(--outer);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background:
+    radial-gradient(circle at 12% 22%, rgba(215, 161, 93, .16), transparent 22rem),
+    linear-gradient(135deg, rgba(255, 250, 242, .7), rgba(235, 225, 211, .42));
+}
+.proof-board-heading {
+  display: grid;
+  grid-template-columns: minmax(0, .9fr) minmax(260px, .45fr);
+  gap: clamp(24px, 5vw, 72px);
+  align-items: end;
+  margin-bottom: 28px;
+}
+.proof-board-heading .section-heading { max-width: 760px; font-size: clamp(38px, 5vw, 72px); }
+.proof-board .proof-strip {
+  border: 1px solid rgba(20, 17, 15, .16);
+  background: rgba(20, 17, 15, .12);
+}
+.proof-board .proof-item {
+  min-height: 190px;
+  padding: clamp(20px, 3vw, 34px);
+  background: rgba(255, 250, 242, .64);
+}
+.proof-materials { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.proof-materials span {
+  min-height: 34px;
+  padding: 9px 12px;
+  border: 1px solid rgba(20, 17, 15, .16);
+  border-radius: 999px;
+  background: rgba(255, 250, 242, .62);
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.showcase-card-inner img { object-fit: contain; padding: 2.4%; }
+.showcase-card[data-slot='active'] { transform: translate3d(-50%, -50%, 180px) rotateY(0deg) rotateZ(0deg) scale(1.14); }
+.showcase-card[data-slot='prev'], .showcase-card[data-slot='next'] { opacity: .56; }
+.showcase-proof-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  max-width: 820px;
+  margin: 18px 0 0;
+  padding: 0;
+  background: rgba(244, 239, 231, .18);
+  border: 1px solid rgba(244, 239, 231, .16);
+}
+.showcase-proof-list div { padding: 14px; background: rgba(18, 15, 13, .5); }
+.showcase-proof-list dt {
+  margin: 0 0 8px;
+  color: var(--gold);
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.showcase-proof-list dd { margin: 0; color: rgba(244, 239, 231, .7); font-size: 12px; line-height: 1.55; }

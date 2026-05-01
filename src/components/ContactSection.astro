@@ -52,6 +52,13 @@ const isExternalLink = (href: string) => /^https?:\/\//i.test(href);
         <span>Project Intake</span>
         <strong>Short, structured, enough to start.</strong>
       </div>
+      <div class="selected-brief" data-brief-selected hidden>
+        <span>Selected starting point</span>
+        <strong data-brief-selected-title>Campaign Kit</strong>
+        <p data-brief-selected-meta>HKD 15,000 - 35,000 / 1-3 weeks</p>
+      </div>
+      <input type="hidden" id="selected-scope" name="selected_scope" value="" data-selected-scope />
+      <input type="hidden" id="brief-source" name="brief_source" value="" data-brief-source />
       <div class="form-row">
         <div class="form-field">
           <label for="name">Name</label>
@@ -117,17 +124,22 @@ const isExternalLink = (href: string) => /^https?:\/\//i.test(href);
         <textarea
           id="message"
           name="message"
-          placeholder="Example: We are opening a cafe and need branding, menu design, opening posters, and Instagram launch assets."
+          placeholder="Example: Goal: opening a cafe. Deadline: early June. References: warm Italian posters, clear menu hierarchy, Instagram launch assets."
           aria-describedby="message-help"
         ></textarea>
-        <div id="message-help" class="helper">Describe the goal, current visual problem, desired style, and any references.</div>
+        <div id="message-help" class="helper">Add the goal, hard deadline, current visual problem, and any references if you have them.</div>
       </div>
 
       <div class="form-footer">
         <button class="button is-dark" type="submit">{ctaLabels.submitBrief}</button>
-        <span class="helper">I reply within 24-48 hours with the clearest next step for your project.</span>
+        <span class="helper">Best projects usually start from HKD 5,000; campaign systems usually start from HKD 15,000.</span>
       </div>
       <div class="form-status" role="status" aria-live="polite" data-brief-status></div>
+      <div class="brief-fallbacks" aria-label="Brief fallback actions">
+        <a class="text-button" href={siteMeta.whatsappUrl} target="_blank" rel="noopener noreferrer" data-brief-whatsapp>Send via WhatsApp</a>
+        <button class="text-button" type="button" data-brief-copy>Copy brief text</button>
+        <a class="text-button" href={`mailto:${siteMeta.email}`}>Email directly</a>
+      </div>
     </form>
   </div>
 </section>

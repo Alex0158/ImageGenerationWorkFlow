@@ -550,3 +550,30 @@
     border-radius: 16px;
   }
 }
+
+/* Upgrade pass: package emphasis and brief fallback affordances. */
+.engagement-card.is-recommended { grid-column: span 5; }
+.engagement-card.is-recommended + .engagement-card { grid-column: span 4; }
+.engagement-card.is-recommended + .engagement-card + .engagement-card { grid-column: span 3; }
+.selected-brief {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 18px;
+  padding: 14px;
+  border: 1px solid rgba(20, 17, 15, .16);
+  border-radius: 14px;
+  background: radial-gradient(circle at 92% 12%, rgba(215, 161, 93, .18), transparent 12rem), rgba(255, 250, 242, .7);
+}
+.selected-brief[hidden] { display: none; }
+.selected-brief span { color: var(--clay); font-family: var(--mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; }
+.selected-brief strong { font-family: var(--display); font-size: 30px; line-height: .95; font-weight: 500; }
+.selected-brief p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.5; }
+.brief-fallbacks { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+.brief-fallbacks .text-button {
+  min-height: 40px;
+  padding: 0 12px;
+  border: 1px solid rgba(20, 17, 15, .16);
+  border-radius: 999px;
+  background: rgba(255, 250, 242, .58);
+  cursor: pointer;
+}

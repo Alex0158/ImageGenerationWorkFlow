@@ -68,9 +68,9 @@ export const ctaLabels: CtaLabels = {
 
 export const heroAssurances: string[] = [
   'Projects from HKD 5,000+',
+  'Campaign kits from HKD 15,000+',
   '24-48h first reply',
   'Scope before design starts',
-  'Files prepared for print and digital use',
 ];
 
 export const proofPoints: ProofPoint[] = [
@@ -121,7 +121,7 @@ export const projectTypeOptions: string[] = [
 ];
 
 export const budgetOptions: string[] = [
-  'Under HKD 5,000',
+  'Below HKD 5,000 / not usually a fit',
   'HKD 5,000 - 15,000',
   'HKD 15,000 - 35,000',
   'HKD 35,000+',

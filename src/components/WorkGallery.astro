@@ -4,6 +4,11 @@ import { ctaLabels } from '@/data/site';
 import { featuredWorks } from '@/data/works';
 
 const galleryWorks = featuredWorks.slice(0, 9);
+const getWorkClass = (index: number) => {
+  if (index === 0) return 'is-featured';
+  if (index === 3) return 'is-wide';
+  return index % 3 === 1 ? 'is-tall' : '';
+};
 ---
 
 <section class="section" id="work" aria-labelledby="work-title">
@@ -16,15 +21,16 @@ const galleryWorks = featuredWorks.slice(0, 9);
       <p class="section-intro">
         This is not a random gallery. Each piece is designed for a real commercial moment: openings, menus, social campaigns, hospitality offers, events, and brand upgrades.
       </p>
-      <a class="text-button" href="#contact">Discuss a similar project</a>
+      <a class="text-button" href="#contact" data-brief-intent="Campaign Kit" data-brief-project-type="Campaign Visual" data-brief-budget="HKD 15,000 - 35,000" data-brief-source="Selected Work">Discuss a similar project</a>
     </div>
   </div>
 
   <ul class="work-grid" data-stagger aria-label="Selected work examples">
-    {galleryWorks.map((work) => (
-      <li class="work-card" data-reveal>
-        <div class="work-image">
+    {galleryWorks.map((work, index) => (
+      <li class:list={['work-card', getWorkClass(index)]} data-reveal>
+        <div class="work-image" data-image-treatment={work.imageTreatment ?? 'cover'}>
           <WorkPicture work={work} sizes="(max-width: 680px) 92vw, (max-width: 1060px) 44vw, 30vw" />
+          <span class="work-moment">{work.moment ?? work.discipline}</span>
         </div>
         <div class="work-meta">
           <div class="work-id">{work.id}</div>
@@ -32,6 +38,7 @@ const galleryWorks = featuredWorks.slice(0, 9);
             <div class="work-title">{work.title}</div>
             <div class="work-discipline">{work.category} / {work.discipline}</div>
             <p class="work-outcome">{work.outcome}</p>
+            {work.output && <p class="work-output">Output: {work.output}</p>}
           </div>
         </div>
       </li>
@@ -41,6 +48,6 @@ const galleryWorks = featuredWorks.slice(0, 9);
   <div class="work-cta-panel" data-reveal>
     <span>Seen enough to shape the direction?</span>
     <p>Send a rough brief and I will turn it into the right scope before design production starts.</p>
-    <a class="button is-dark" href="#contact">{ctaLabels.primary}</a>
+    <a class="button is-dark" href="#contact" data-brief-intent="Campaign Kit" data-brief-project-type="Campaign Visual" data-brief-budget="HKD 15,000 - 35,000" data-brief-source="Work CTA panel">{ctaLabels.primary}</a>
   </div>
 </section>

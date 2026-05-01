@@ -17,6 +17,7 @@ interface EngagementOption {
   timeline: string;
   budgetGuide: string;
   recommended?: boolean;
+  projectType: string;
   text: string;
   bestFor: string;
   includes: string[];
@@ -79,31 +80,34 @@ export const projectFits: ProjectFit[] = [
 
 export const engagementOptions: EngagementOption[] = [
   {
-    label: 'Focused start',
-    title: 'Identity Sprint',
-    timeline: '2-3 weeks',
-    budgetGuide: 'HKD 5,000 - 15,000',
-    text: 'A compact visual identity direction for brands that need to look credible quickly without overbuilding the system.',
-    bestFor: 'new brands, personal brands, small hospitality concepts, visual refreshes',
-    includes: ['Logo direction', 'Type and color system', 'Core visual rules', 'Starter asset set'],
-    cta: 'Start an Identity Sprint',
-  },
-  {
     label: 'Launch-ready',
     title: 'Campaign Kit',
     timeline: '1-3 weeks',
     budgetGuide: 'HKD 15,000 - 35,000',
     recommended: true,
+    projectType: 'Campaign Visual',
     text: 'A campaign package that turns one launch, opening, event, or promotion into a coherent set of usable visuals.',
     bestFor: 'openings, seasonal offers, product drops, events, social campaigns',
     includes: ['Key visual', 'Poster or hero graphic', 'Social rollout assets', 'Print and digital exports'],
     cta: 'Build a Campaign Kit',
   },
   {
+    label: 'Focused start',
+    title: 'Identity Sprint',
+    timeline: '2-3 weeks',
+    budgetGuide: 'HKD 5,000 - 15,000',
+    projectType: 'Brand Identity',
+    text: 'A compact visual identity direction for brands that need to look credible quickly without overbuilding the system.',
+    bestFor: 'new brands, personal brands, small hospitality concepts, visual refreshes',
+    includes: ['Logo direction', 'Type and color system', 'Core visual rules', 'Starter asset set'],
+    cta: 'Start an Identity Sprint',
+  },
+  {
     label: 'Deeper direction',
     title: 'Visual System',
     timeline: '4-8 weeks',
     budgetGuide: 'HKD 35,000+',
+    projectType: 'Not sure yet',
     text: 'A broader design direction for brands that need stronger consistency across identity, campaigns, content, and customer touchpoints.',
     bestFor: 'upmarket repositioning, multi-channel brands, hospitality groups, launch systems',
     includes: ['Art direction', 'Identity system', 'Campaign language', 'Usage guidance'],

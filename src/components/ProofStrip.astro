@@ -2,8 +2,12 @@
 import { proofPoints } from '@/data/site';
 ---
 
-<section>
-  <ul class="proof-strip" aria-label="Project proof points" aria-live="polite">
+<section class="proof-board" aria-labelledby="proof-title">
+  <div class="proof-board-heading" data-reveal>
+    <div class="section-kicker">Proof of Craft</div>
+    <h2 class="section-heading" id="proof-title">Designed as working assets, not one-off decoration.</h2>
+  </div>
+  <ul class="proof-strip" aria-label="Project proof points">
     {proofPoints.map((point) => (
       <li class="proof-item">
         <div class="proof-value" data-count-target={point.value}>{point.value}</div>
@@ -11,4 +15,10 @@ import { proofPoints } from '@/data/site';
       </li>
     ))}
   </ul>
+  <div class="proof-materials" aria-label="Delivery evidence" data-reveal>
+    <span>Print-ready files</span>
+    <span>Social rollout crops</span>
+    <span>Menu hierarchy</span>
+    <span>Direct 1:1 execution</span>
+  </div>
 </section>

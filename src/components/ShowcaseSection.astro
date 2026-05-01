@@ -23,9 +23,9 @@ const getInitialShowcaseSlot = (index: number) => {
 <section class="showcase-section" id="showcase" aria-labelledby="showcase-title">
   <div class="showcase-copy" data-reveal>
     <div class="section-kicker">Signature Showcase</div>
-    <h2 class="showcase-title" id="showcase-title">A rotating wall of commercial graphics.</h2>
+    <h2 class="showcase-title" id="showcase-title">A curated wall of launch-ready graphics.</h2>
     <p class="section-intro">
-      A cinematic product-wall for commercial graphics: posters, hospitality visuals, campaign systems, and launch assets designed to stop the scroll.
+      Selected posters, menus, and campaign systems presented as working commercial artifacts, not decorative mood boards.
     </p>
   </div>
 
@@ -68,14 +68,19 @@ const getInitialShowcaseSlot = (index: number) => {
             data-index={index}
             id={getShowcaseIds(work.slug, index).metaId}
           >
-            <span>{work.category}</span>
+            <span>{work.moment ?? work.category}</span>
             <strong>{work.title}</strong>
             <p>{work.outcome}</p>
+            <dl class="showcase-proof-list">
+              <div><dt>Problem</dt><dd>{work.problem ?? 'The brand needed a clearer commercial first impression.'}</dd></div>
+              <div><dt>Visual move</dt><dd>{work.visualMove ?? 'A focused hierarchy, stronger art direction, and usable rollout system.'}</dd></div>
+              <div><dt>Output</dt><dd>{work.output ?? 'Campaign visual prepared for print, social, and launch use.'}</dd></div>
+            </dl>
           </div>
         ))}
       </div>
       <div class="showcase-actions" aria-label="Showcase next steps">
-        <a class="button is-light" href="#contact">{ctaLabels.primary}</a>
+        <a class="button is-light" href="#contact" data-brief-intent="Campaign Kit" data-brief-project-type="Campaign Visual" data-brief-budget="HKD 15,000 - 35,000" data-brief-source="Showcase">{ctaLabels.primary}</a>
         <a class="text-button" href="#work">See selected work</a>
       </div>
       <div class="showcase-dots" id="showcase-tabs" role="tablist" aria-label="Showcase work items">

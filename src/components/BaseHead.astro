@@ -1,11 +1,16 @@
 ---
 import { siteMeta } from '@/data/site';
 
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin).href;
+const socialImageUrl = new URL('/assets/works/pasta-hospitality-poster-904.webp', Astro.site ?? Astro.url.origin).href;
 const schema = {
   '@context': 'https://schema.org',
   '@type': 'ProfessionalService',
   name: siteMeta.name,
   description: siteMeta.description,
+  url: canonicalUrl,
+  image: socialImageUrl,
+  email: siteMeta.email,
   areaServed: siteMeta.areaServed,
   serviceType: siteMeta.serviceTypes,
 };
@@ -19,8 +24,15 @@ const schema = {
 <meta property="og:title" content={siteMeta.title} />
 <meta property="og:description" content={siteMeta.ogDescription} />
 <meta property="og:type" content="website" />
-<meta property="og:url" content={Astro.url.href} />
-<meta property="og:image" content="/assets/works/pasta-hospitality-poster-904.webp" />
+<meta property="og:url" content={canonicalUrl} />
+<meta property="og:image" content={socialImageUrl} />
+<meta property="og:image:width" content="904" />
+<meta property="og:image:height" content="1280" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={siteMeta.title} />
+<meta name="twitter:description" content={siteMeta.ogDescription} />
+<meta name="twitter:image" content={socialImageUrl} />
+<link rel="canonical" href={canonicalUrl} />
 <link rel="icon" href="/assets/generated/mark.svg" type="image/svg+xml" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

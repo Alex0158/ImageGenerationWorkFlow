@@ -3,6 +3,9 @@ interface Service {
   label: string;
   duration: string;
   featured?: boolean;
+  intent: string;
+  projectType: string;
+  budgetGuide: string;
   fit: string;
   deliverables: string[];
   cta: string;
@@ -16,26 +19,35 @@ interface ProcessStep {
 
 export const services: Service[] = [
   {
+    title: 'Launch Campaign System',
+    label: 'For openings, product drops, events, and social-first promotions.',
+    duration: '1-3 weeks',
+    featured: true,
+    intent: 'Campaign Kit',
+    projectType: 'Campaign Visual',
+    budgetGuide: 'HKD 15,000 - 35,000',
+    fit: 'A campaign package that turns one launch into posters, banners, menus, stories, and launch assets that feel like one system.',
+    deliverables: ['Key visual', 'Poster system', 'Social media assets', 'Print and digital roll-out'],
+    cta: 'Build My Launch Visuals',
+  },
+  {
     title: 'Visual Identity',
     label: 'For brands that need to look polished, memorable, and instantly credible.',
     duration: '2-3 weeks',
+    intent: 'Identity Sprint',
+    projectType: 'Brand Identity',
+    budgetGuide: 'HKD 5,000 - 15,000',
     fit: 'A focused identity sprint for founders, restaurants, lifestyle brands, and personal brands that need a sharper visual presence.',
     deliverables: ['Logo direction', 'Typography system', 'Color and art direction', 'Starter brand kit'],
     cta: 'Shape My Identity',
   },
   {
-    title: 'Launch Campaign System',
-    label: 'For openings, product drops, events, and social-first promotions.',
-    duration: '1-3 weeks',
-    featured: true,
-    fit: 'A campaign package that turns one idea into a complete visual system across posters, banners, menus, stories, and launch assets.',
-    deliverables: ['Key visual', 'Poster system', 'Social media assets', 'Print and digital roll-out'],
-    cta: 'Build My Launch Visuals',
-  },
-  {
     title: 'Art Direction',
     label: 'For brands that need a complete visual world, not one-off graphics.',
     duration: '4-8 weeks',
+    intent: 'Visual System',
+    projectType: 'Not sure yet',
+    budgetGuide: 'HKD 35,000+',
     fit: 'A deeper design direction package for brands that want to move upmarket, look more mature, and build consistency across every touchpoint.',
     deliverables: ['Visual strategy', 'Brand identity system', 'Campaign language', 'Launch kit and usage guidance'],
     cta: 'Book Direction Work',
