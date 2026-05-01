@@ -53,7 +53,6 @@ export const siteMeta: SiteMeta = {
 export const navItems: NavItem[] = [
   { label: 'Showcase', href: '#showcase' },
   { label: 'Work', href: '#work' },
-  { label: 'Services', href: '#services' },
   { label: 'Scope', href: '#engagement' },
   { label: 'Process', href: '#process' },
   { label: 'Brief', href: '#contact' },

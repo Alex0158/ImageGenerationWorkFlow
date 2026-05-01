@@ -545,13 +545,10 @@ briefIntentLinks.forEach((link) => {
 
 const buildBriefText = (formData: FormData) => [
   `Name: ${String(formData.get('name') || '').trim()}`,
-  `Brand / Project: ${String(formData.get('brand') || '').trim()}`,
   `Contact: ${String(formData.get('contact') || '').trim()}`,
   `Selected scope: ${String(formData.get('selected_scope') || '').trim() || 'Not selected'}`,
-  `CTA source: ${String(formData.get('brief_source') || '').trim() || 'Direct form'}`,
   `Project type: ${String(formData.get('project_type') || '').trim()}`,
   `Budget range: ${String(formData.get('budget') || '').trim()}`,
-  `Timeline: ${String(formData.get('timeline') || '').trim()}`,
   '',
   'Project notes:',
   String(formData.get('message') || '').trim() || 'No extra notes yet.',
@@ -569,8 +566,8 @@ const updateBriefFallbacks = (briefText: string, subject: string) => {
 copyBriefButton?.addEventListener('click', async () => {
   if (!briefForm) return;
   const formData = new FormData(briefForm);
-  const brand = String(formData.get('brand') || '').trim();
-  const subject = `Project brief${brand ? `: ${brand}` : ''}`;
+  const name = String(formData.get('name') || '').trim();
+  const subject = `Project brief${name ? ` from ${name}` : ''}`;
   const briefText = buildBriefText(formData);
   updateBriefFallbacks(briefText, subject);
   try {
@@ -587,18 +584,15 @@ briefForm?.addEventListener('submit', (event) => {
 
   const formData = new FormData(briefForm);
   const name = String(formData.get('name') || '').trim();
-  const brand = String(formData.get('brand') || '').trim();
   const contact = String(formData.get('contact') || '').trim();
   const projectType = String(formData.get('project_type') || '').trim();
   const budget = String(formData.get('budget') || '').trim();
-  const timeline = String(formData.get('timeline') || '').trim();
 
   const requiredFields = [
     { id: 'name', value: name, error: 'Please provide your name.' },
     { id: 'contact-method', value: contact, error: 'Please provide a valid email or phone number.' },
     { id: 'project-type', value: projectType, error: 'Please choose a project type.' },
     { id: 'budget', value: budget, error: 'Please choose a budget range.' },
-    { id: 'timeline', value: timeline, error: 'Please choose a timeline.' },
   ];
 
   requiredFields.forEach((field) => setFieldErrorState(field.id, false));
@@ -618,7 +612,7 @@ briefForm?.addEventListener('submit', (event) => {
     return;
   }
 
-  const subject = `Project brief${brand ? `: ${brand}` : ''}`;
+  const subject = `Project brief${name ? ` from ${name}` : ''}`;
   const body = buildBriefText(formData);
   const mailto = updateBriefFallbacks(body, subject);
 

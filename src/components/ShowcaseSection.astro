@@ -3,7 +3,7 @@ import WorkPicture from '@/components/WorkPicture.astro';
 import { ctaLabels } from '@/data/site';
 import { featuredWorks } from '@/data/works';
 
-const showcaseWorks = featuredWorks.slice(0, 10);
+const showcaseWorks = featuredWorks.slice(0, 5);
 const getShowcaseIds = (slug: string, index: number) => ({
   cardId: `showcase-card-${slug}-${index}`,
   metaId: `showcase-meta-${slug}-${index}`,

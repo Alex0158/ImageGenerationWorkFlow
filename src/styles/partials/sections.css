@@ -876,6 +876,44 @@
   color: var(--oxide);
 }
 
+.contact-faq {
+  margin-top: 34px;
+  padding-top: 28px;
+  border-top: 1px solid rgba(20, 17, 15, .12);
+}
+.contact-faq-title {
+  margin: 0 0 18px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--clay);
+}
+.contact-faq-list {
+  margin: 0;
+  display: grid;
+  gap: 0;
+}
+.contact-faq-list div {
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(20, 17, 15, .1);
+}
+.contact-faq-list div:first-child {
+  padding-top: 0;
+}
+.contact-faq-list dt {
+  margin: 0;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1.4;
+}
+.contact-faq-list dd {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.65;
+}
+
 .site-footer {
   display: grid;
   grid-template-columns: 1fr auto;
