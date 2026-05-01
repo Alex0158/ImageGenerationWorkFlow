@@ -4,11 +4,6 @@ import { ctaLabels } from '@/data/site';
 import { featuredWorks } from '@/data/works';
 
 const galleryWorks = featuredWorks.slice(0, 9);
-const getWorkClass = (index: number) => {
-  if (index === 0) return 'is-featured';
-  if (index === 3) return 'is-wide';
-  return index % 3 === 1 ? 'is-tall' : '';
-};
 ---
 
 <section class="section" id="work" aria-labelledby="work-title">
@@ -26,8 +21,8 @@ const getWorkClass = (index: number) => {
   </div>
 
   <ul class="work-grid" data-stagger aria-label="Selected work examples">
-    {galleryWorks.map((work, index) => (
-      <li class:list={['work-card', getWorkClass(index)]} data-reveal>
+    {galleryWorks.map((work) => (
+      <li class="work-card" data-reveal>
         <div class="work-image" data-image-treatment={work.imageTreatment ?? 'cover'}>
           <WorkPicture work={work} sizes="(max-width: 680px) 92vw, (max-width: 1060px) 44vw, 30vw" />
           <span class="work-moment">{work.moment ?? work.discipline}</span>

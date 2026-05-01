@@ -98,14 +98,9 @@
   white-space: nowrap;
 }
 
-/* Upgrade pass: editorial work spread and visible commercial moments. */
-.work-grid { grid-template-columns: repeat(12, minmax(0, 1fr)); gap: clamp(18px, 2.2vw, 30px); }
-.work-card { grid-column: span 4; }
-.work-card.is-featured { grid-column: span 7; grid-row: span 2; }
-.work-card.is-wide { grid-column: span 8; }
-.work-card.is-tall { transform: translateY(34px); }
-.work-card.is-featured .work-image { aspect-ratio: 1 / 1.08; }
-.work-card.is-wide .work-image { aspect-ratio: 16 / 10; }
+/* Staggered offset: every middle column card shifts down for editorial rhythm */
+.work-card:nth-child(3n + 2) { transform: translateY(34px); }
+
 .work-moment {
   position: absolute;
   left: 14px;

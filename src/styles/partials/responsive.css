@@ -55,14 +55,8 @@
   .decision-heading { position: static; }
   .process-grid { grid-template-columns: repeat(2, 1fr); }
 
-  /* Reset 12-column work grid to simple 2-col */
   .work-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .work-card,
-  .work-card.is-featured,
-  .work-card.is-wide,
-  .work-card:nth-child(n) { grid-column: auto; grid-row: auto; transform: none; }
-  .work-card.is-featured .work-image,
-  .work-card.is-wide .work-image { aspect-ratio: 4 / 5.15; }
+  .work-card, .work-card:nth-child(n) { transform: none; }
 
   /* Reset engagement unequal spans */
   .engagement-card.is-recommended,
@@ -338,13 +332,8 @@
   .showcase-dots button { width: 44px; height: 44px; }
 
   /* Work grid: single column on mobile */
-  .work-grid { display: grid; grid-template-columns: 1fr; }
-  .work-card,
-  .work-card.is-featured,
-  .work-card.is-wide { grid-column: auto; grid-row: auto; }
-  .work-card.is-featured .work-image,
-  .work-card.is-wide .work-image { aspect-ratio: 4 / 5.25; }
-  .work-card.is-tall { transform: none; }
+  .work-grid { grid-template-columns: 1fr; }
+  .work-card, .work-card:nth-child(n) { transform: none; }
   .work-moment { opacity: 1; transform: none; }
 
   /* Engagement: single column */
