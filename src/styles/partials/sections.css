@@ -598,17 +598,6 @@
   position: relative;
   overflow: hidden;
 }
-.process-section::before {
-  content: '01  02  03  04';
-  position: absolute;
-  right: var(--outer);
-  top: clamp(40px, 7vw, 92px);
-  color: rgba(244, 239, 231, .06);
-  font-family: var(--mono);
-  font-size: clamp(44px, 8vw, 120px);
-  letter-spacing: .08em;
-  pointer-events: none;
-}
 .process-section .section-kicker { color: #d6a07f; }
 .process-section .section-intro { color: rgba(244, 239, 231, .72); }
 .process-grid {
