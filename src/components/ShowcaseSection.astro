@@ -71,11 +71,6 @@ const getInitialShowcaseSlot = (index: number) => {
             <span>{work.moment ?? work.category}</span>
             <strong>{work.title}</strong>
             <p>{work.outcome}</p>
-            <dl class="showcase-proof-list">
-              <div><dt>Problem</dt><dd>{work.problem ?? 'The brand needed a clearer commercial first impression.'}</dd></div>
-              <div><dt>Visual move</dt><dd>{work.visualMove ?? 'A focused hierarchy, stronger art direction, and usable rollout system.'}</dd></div>
-              <div><dt>Output</dt><dd>{work.output ?? 'Campaign visual prepared for print, social, and launch use.'}</dd></div>
-            </dl>
           </div>
         ))}
       </div>
