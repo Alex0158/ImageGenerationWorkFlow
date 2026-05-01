@@ -16,9 +16,6 @@
   --sans: Manrope, 'Helvetica Neue', Arial, sans-serif;
   --mono: 'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace;
   --ease: cubic-bezier(.19, 1, .22, 1);
-  --z-base: 1;
-  --z-card: 2;
-  --z-overlay: 8;
   --z-header: 40;
   --z-mobile-cta: 45;
   --z-grain: 50;

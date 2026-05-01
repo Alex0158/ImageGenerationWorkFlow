@@ -10,13 +10,12 @@ export type Work = {
   visualMove?: string;
   output?: string;
   imageTreatment?: 'contain' | 'cover';
-  sourceFile: string;
+  sourceFile?: string;
   width: number;
   height: number;
   alt: string;
   featured?: boolean;
   hero?: boolean;
-  muted?: boolean;
 };
 
 export const works: Work[] = [

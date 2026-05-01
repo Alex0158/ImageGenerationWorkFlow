@@ -99,7 +99,7 @@ const getInitialShowcaseSlot = (index: number) => {
             aria-describedby={getShowcaseIds(work.slug, index).metaId}
             aria-selected={index === 0 ? 'true' : 'false'}
             aria-label={`Show ${work.title}`}
-            tabindex={index === 0 ? '0' : '-1'}
+            tabindex={index === 0 ? 0 : -1}
           >
             <span>{(index + 1).toString().padStart(2, '0')}</span>
           </button>

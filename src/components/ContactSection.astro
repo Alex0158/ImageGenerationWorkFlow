@@ -134,7 +134,7 @@ const isExternalLink = (href: string) => /^https?:\/\//i.test(href);
         <button class="button is-dark" type="submit">{ctaLabels.submitBrief}</button>
         <span class="helper">Best projects usually start from HKD 5,000; campaign systems usually start from HKD 15,000.</span>
       </div>
-      <div class="form-status" role="status" aria-live="polite" data-brief-status></div>
+      <div class="form-status" role="status" aria-live="polite" aria-atomic="true" data-brief-status></div>
       <div class="brief-fallbacks" aria-label="Brief fallback actions">
         <a class="text-button" href={siteMeta.whatsappUrl} target="_blank" rel="noopener noreferrer" data-brief-whatsapp>Send via WhatsApp</a>
         <button class="text-button" type="button" data-brief-copy>Copy brief text</button>

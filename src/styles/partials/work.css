@@ -45,26 +45,6 @@
   transition: transform .45s var(--ease);
   will-change: transform;
 }
-.work-image::after {
-  content: 'Commercial visual system';
-  position: absolute;
-  left: 14px;
-  right: 14px;
-  bottom: 14px;
-  padding: 10px 12px;
-  border: 1px solid rgba(244, 239, 231, .3);
-  border-radius: 999px;
-  background: rgba(18, 15, 13, .52);
-  color: rgba(244, 239, 231, .78);
-  font-family: var(--mono);
-  font-size: 9px;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  opacity: 0;
-  transform: translateY(8px);
-  transition: opacity .45s var(--ease), transform .45s var(--ease);
-  backdrop-filter: blur(14px);
-}
 .work-image img {
   width: 100%;
   height: 100%;
@@ -73,10 +53,6 @@
   transition: transform .8s var(--ease);
 }
 .work-card:hover .work-image img { transform: scale(1.035); }
-.work-card:hover .work-image::after {
-  opacity: 1;
-  transform: translateY(0);
-}
 .work-meta {
   display: grid;
   grid-template-columns: auto 1fr;
@@ -130,7 +106,6 @@
 .work-card.is-tall { transform: translateY(34px); }
 .work-card.is-featured .work-image { aspect-ratio: 1 / 1.08; }
 .work-card.is-wide .work-image { aspect-ratio: 16 / 10; }
-.work-image::after { display: none; }
 .work-moment {
   position: absolute;
   left: 14px;
