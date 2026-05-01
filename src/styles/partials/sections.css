@@ -362,7 +362,7 @@
   position: relative;
   z-index: 4;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto auto;
+  grid-template-columns: minmax(0, 1fr) auto;
   gap: 24px;
   align-items: end;
   margin-top: -22px;
@@ -408,10 +408,10 @@
   line-height: 1.7;
 }
 .showcase-actions {
-  display: grid;
-  gap: 10px;
-  justify-items: stretch;
-  min-width: 168px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 18px;
 }
 .showcase-actions .button,
 .showcase-actions .text-button {

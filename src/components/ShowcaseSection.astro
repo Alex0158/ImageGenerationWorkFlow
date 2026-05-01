@@ -73,10 +73,10 @@ const getInitialShowcaseSlot = (index: number) => {
             <p>{work.outcome}</p>
           </div>
         ))}
-      </div>
-      <div class="showcase-actions" aria-label="Showcase next steps">
-        <a class="button is-light" href="#contact" data-brief-intent="Campaign Kit" data-brief-project-type="Campaign Visual" data-brief-budget="HKD 15,000 - 35,000" data-brief-source="Showcase">{ctaLabels.primary}</a>
-        <a class="text-button" href="#work">See selected work</a>
+        <div class="showcase-actions" aria-label="Showcase next steps">
+          <a class="button is-light" href="#contact" data-brief-intent="Campaign Kit" data-brief-project-type="Campaign Visual" data-brief-budget="HKD 15,000 - 35,000" data-brief-source="Showcase">{ctaLabels.primary}</a>
+          <a class="text-button" href="#work">See selected work</a>
+        </div>
       </div>
       <div class="showcase-dots" id="showcase-tabs" role="tablist" aria-label="Showcase work items">
         {showcaseWorks.map((work, index) => (
