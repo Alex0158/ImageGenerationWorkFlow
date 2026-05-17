@@ -49,7 +49,29 @@ corepack prepare pnpm@10.28.2 --activate
 pnpm -v
 ```
 
-## 3. 從 0 開始 Clone
+## 3. 環境變數與 API 配置
+
+本項目本機快速體驗不需要 `.env`、API key、database、後端服務或第三方 SaaS secret。
+
+目前核查到的 runtime 行為：
+
+- 沒有 `.env.example` 或已提交的 `.env` 文件。
+- 程式碼沒有使用 `import.meta.env` 或 `process.env`。
+- Contact form 使用 `mailto:` 打開本機 email app，不會提交到後端 API。
+- WhatsApp / Instagram / email 連結來自 `src/data/site.ts` 的靜態資料。
+- 外部網路依賴只有 Google Fonts 之類的瀏覽器資源；它們不是 API 配置。
+
+如果你只是要本機打開網站體驗，不需要配置任何 secret。
+
+如果要改成真實對外使用的聯絡資料，才需要修改：
+
+```text
+src/data/site.ts
+```
+
+例如 email、WhatsApp URL、Instagram URL。這是靜態內容配置，不是 `.env` setup。
+
+## 4. 從 0 開始 Clone
 
 建議放在 `/Users/alex/AdsManagement` 下：
 
@@ -61,7 +83,7 @@ cd ImageGenerationWorkFlow
 
 如果 GitHub 要求登入或 token，使用你自己的 GitHub 認證流程。不要把 token、password 或 secret 寫入 repo 文件。
 
-## 4. 安裝依賴
+## 5. 安裝依賴
 
 ```bash
 pnpm install
@@ -73,7 +95,7 @@ pnpm install
 - `pnpm-lock.yaml` 已經在 repo 裡，不需要手動建立。
 - 正常情況下不應該修改 source files。
 
-## 5. 啟動前先驗證作品圖片資料
+## 6. 啟動前先驗證作品圖片資料
 
 ```bash
 pnpm validate:works
@@ -91,7 +113,7 @@ Validated 20 work entries and optimized asset sets.
 - `public/assets/works/` 內有對應的 AVIF / WebP optimized images。
 - 每個作品 entry 的 slug、原圖、尺寸、alt text 和輸出圖片基本一致。
 
-## 6. 起本機 Dev Server
+## 7. 起本機 Dev Server
 
 ```bash
 pnpm dev -- --host 127.0.0.1
@@ -111,7 +133,7 @@ http://127.0.0.1:4321/
 
 Astro 預設常用 port 是 `4321`。如果 terminal 顯示另一個 port，以 terminal 實際輸出的 URL 為準。
 
-## 7. 體驗時應該檢查什麼
+## 8. 體驗時應該檢查什麼
 
 建議先看這些核心位置：
 
@@ -124,7 +146,7 @@ Astro 預設常用 port 是 `4321`。如果 terminal 顯示另一個 port，以 
 - WhatsApp、copy brief、direct email fallback 是否可見。
 - 手機寬度下是否沒有水平滾動、文字重疊、CTA 被壓住。
 
-## 8. 停止 Dev Server
+## 9. 停止 Dev Server
 
 在執行 `pnpm dev` 的 terminal 按：
 
@@ -143,7 +165,7 @@ lsof -iTCP:4321 -sTCP:LISTEN
 - 沒有輸出，代表 `4321` 沒有 listener。
 - 如果仍有輸出，代表還有 process 佔用該 port。
 
-## 9. 修改前後的最低檢查
+## 10. 修改前後的最低檢查
 
 修改前先看 git 狀態：
 
@@ -165,7 +187,7 @@ pnpm validate:works
 pnpm build
 ```
 
-## 10. 常見問題
+## 11. 常見問題
 
 ### `pnpm: command not found`
 
@@ -208,7 +230,15 @@ pnpm validate:works
 
 只有在作品圖片或 `src/data/works.ts` 有變更時才需要重新生成圖片。
 
-## 11. 常用命令
+### 需要 `.env` 嗎？
+
+本機快速體驗不需要。當前 repo 沒有程式碼讀取 `.env`，也沒有後端 API 或 database connection。
+
+### Contact form 會真的送到 API 嗎？
+
+不會。它會用 `mailto:` 嘗試打開本機 email app，並提供 WhatsApp / copy brief fallback。
+
+## 12. 常用命令
 
 ```bash
 pnpm dev              # 啟動 Astro dev server
@@ -263,7 +293,29 @@ corepack prepare pnpm@10.28.2 --activate
 pnpm -v
 ```
 
-## 3. Clone From Zero
+## 3. Environment Variables And API Configuration
+
+Local preview for this project does not require `.env`, API keys, a database, a backend service, or third-party SaaS secrets.
+
+Current runtime evidence:
+
+- There is no committed `.env.example` or `.env` file.
+- The source code does not use `import.meta.env` or `process.env`.
+- The contact form uses `mailto:` to open the local email app; it does not submit to a backend API.
+- WhatsApp / Instagram / email links come from static data in `src/data/site.ts`.
+- External network usage is limited to browser assets such as Google Fonts; these are not API configuration.
+
+If you only want to open and experience the site locally, no secret configuration is required.
+
+If you want to replace the public contact information for real use, edit:
+
+```text
+src/data/site.ts
+```
+
+For example, update email, WhatsApp URL, or Instagram URL. This is static content configuration, not `.env` setup.
+
+## 4. Clone From Zero
 
 Recommended local parent folder:
 
@@ -275,7 +327,7 @@ cd ImageGenerationWorkFlow
 
 If GitHub asks for authentication, use your normal GitHub account or token flow. Do not write tokens, passwords, or secrets into project files.
 
-## 4. Install Dependencies
+## 5. Install Dependencies
 
 ```bash
 pnpm install
@@ -287,7 +339,7 @@ Expected result:
 - `pnpm-lock.yaml` already exists in the repository.
 - Source files should normally remain unchanged.
 
-## 5. Validate Work Image Data Before Starting
+## 6. Validate Work Image Data Before Starting
 
 ```bash
 pnpm validate:works
@@ -305,7 +357,7 @@ This confirms:
 - Matching AVIF / WebP optimized images exist under `public/assets/works/`.
 - Each work entry has consistent slug, source image, dimensions, alt text, and output assets.
 
-## 6. Start Local Dev Server
+## 7. Start Local Dev Server
 
 ```bash
 pnpm dev -- --host 127.0.0.1
@@ -325,7 +377,7 @@ http://127.0.0.1:4321/
 
 Astro commonly uses port `4321`. If the terminal prints a different port, use the URL shown by Astro.
 
-## 7. What To Check In The Browser
+## 8. What To Check In The Browser
 
 Start with these core checks:
 
@@ -338,7 +390,7 @@ Start with these core checks:
 - WhatsApp, copy brief, and direct email fallbacks are visible.
 - Mobile width has no horizontal overflow, overlapping text, or buried CTA.
 
-## 8. Stop Dev Server
+## 9. Stop Dev Server
 
 In the terminal running `pnpm dev`, press:
 
@@ -357,7 +409,7 @@ Expected result:
 - No output means there is no listener on `4321`.
 - If output remains, another process is still using that port.
 
-## 9. Minimum Checks Before And After Editing
+## 10. Minimum Checks Before And After Editing
 
 Before editing, check git status:
 
@@ -379,7 +431,7 @@ pnpm validate:works
 pnpm build
 ```
 
-## 10. Troubleshooting
+## 11. Troubleshooting
 
 ### `pnpm: command not found`
 
@@ -422,7 +474,15 @@ pnpm validate:works
 
 Only regenerate images when work images or `src/data/works.ts` changed.
 
-## 11. Project Commands
+### Do I need `.env`?
+
+No for local quick setup. The current repo has no code reading `.env`, no backend API, and no database connection.
+
+### Does the contact form submit to an API?
+
+No. It uses `mailto:` to open the local email app, with WhatsApp and copy-brief fallbacks.
+
+## 12. Project Commands
 
 ```bash
 pnpm dev              # Start Astro dev server
